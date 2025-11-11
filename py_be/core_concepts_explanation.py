@@ -1,8 +1,6 @@
-```python
+
 # Python Core Concepts: print(), Comments, Variables, and Input
 
-This file provides a more detailed explanation and examples for fundamental Python concepts.
-```
 
 # --- 1. The print() function ---
 # The print() function is used to output messages, variables, or results to the console.

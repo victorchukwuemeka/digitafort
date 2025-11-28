@@ -1,138 +1,164 @@
-# An Introduction to Basic Logical Operations
+# A Course in Basic Propositional Logic
 
-In logic, a statement (or proposition) is a sentence that can be definitively classified as either **True** or **False**. We can perform operations on these statements to create more complex ones, much like we use `+` or `-` in arithmetic. The truth of these complex statements depends entirely on the truth of their parts.
+Welcome! This document provides a foundational course in propositional logic, the branch of logic that studies the relationships between propositions (statements that can be true or false).
 
-Let's explore the fundamental logical operations, using `P` and `Q` as our example statements.
+## Chapter 1: The Building Blocks of Logic
 
----\n
+### 1.1 Propositions and Truth Values
 
-### 1. Conjunction (AND)
+In logic, a **proposition** (or statement) is a sentence that can be definitively classified as either **True** or **False**. It cannot be both or neither.
 
-**The `AND` operation is about meeting all conditions.** A compound statement using `AND` is only true if **every single part** of it is true. If even one part is false, the whole statement is false.
+-   **Examples of propositions:**
+    -   "The sky is blue." (True)
+    -   "The Earth is flat." (False)
+    -   "2 + 2 = 4." (True)
+-   **Examples of non-propositions:**
+    -   "What time is it?" (This is a question)
+    -   "Close the door." (This is a command)
+    -   "This statement is false." (This is a paradox)
 
--   **Analogy:** To get a driver's license (Statement R), you must pass the written test (Statement P) **AND** pass the practical driving test (Statement Q). If you only do one or the other, you don't get the license. Both must be true for the final outcome to be true.
--   **Formal Name:** Conjunction
+### 1.2 Basic Logical Operations
+
+We can perform operations on propositions to create more complex ones, much like we use `+` or `-` in arithmetic. The truth of these complex statements depends entirely on the truth of their parts. Let's use `P` and `Q` as our example propositions.
+
+---
+
+#### **Conjunction (AND)**
+
+**The `AND` operation is about meeting all conditions.** A compound statement using `AND` is only true if **every single part** of it is true.
+
+-   **Analogy:** To get a driver's license, you must pass the written test (P) **AND** pass the practical driving test (Q). If you only do one, you don't get the license.
 -   **Symbol:** $\land$
 -   **Reads:** "P and Q"
 -   **Truth Table:**
-
 | P | Q | P $\land$ Q |
-|:-------:|:-------:|:-----------:|
-| True    | True    | True        |
-| True    | False   | False       |
-| False   | True    | False       |
-| False   | False   | False       |
+|:---:|:---:|:---:|
+| T | T | T |
+| T | F | F |
+| F | T | F |
+| F | F | F |
 
----\n
+---
 
-### 2. Disjunction (OR)
+#### **Disjunction (OR)**
 
-**The `OR` operation is about meeting at least one condition.** A compound statement using `OR` is true if **one or more** of its parts are true. It's only false when all parts are false. This is also called an "inclusive or".
+**The `OR` operation is about meeting at least one condition.** A compound statement using `OR` is true if **one or more** of its parts are true.
 
--   **Analogy:** A university might accept students who have high grades (P) **OR** have excellent extracurricular achievements (Q). A student can get in if they satisfy one condition, the other, or both. The only way they are rejected is if they satisfy neither.
--   **Formal Name:** Disjunction
+-   **Analogy:** A university might accept students with high grades (P) **OR** excellent extracurriculars (Q). A student gets in if they satisfy one, the other, or both.
 -   **Symbol:** $\lor$
 -   **Reads:** "P or Q"
 -   **Truth Table:**
-
 | P | Q | P $\lor$ Q |
-|:-------:|:-------:|:----------:|
-| True    | True    | True       |
-| True    | False   | True       |
-| False   | True    | True       |
-| False   | False   | False      |
+|:---:|:---:|:---:|
+| T | T | T |
+| T | F | T |
+| F | T | T |
+| F | F | F |
 
----\n
+---
 
-### 3. Negation (NOT)
+#### **Negation (NOT)**
 
-**The `NOT` operation simply flips the truth value.** It makes a true statement false, and a false statement true.
+**The `NOT` operation simply flips the truth value.**
 
--   **Analogy:** If the statement "The sky is blue" (P) is true, then "The sky is **not** blue" ($\neg$P) is false.
--   **Formal Name:** Negation
+-   **Analogy:** If "The sky is blue" (P) is true, then "The sky is **not** blue" ($\neg$P) is false.
 -   **Symbol:** $\neg$
 -   **Reads:** "not P"
 -   **Truth Table:**
-
 | P | $\neg$ P |
-|:-------:|:--------:|
-| True    | False    |
-| False   | True     |
+|:---:|:---:|
+| T | F |
+| F | T |
 
----\n
+---
 
-### 4. Exclusive OR (XOR)
+## Chapter 2: Advanced Logical Concepts
 
-**The `XOR` operation is about meeting exactly one condition.** A compound statement using `XOR` is true only if **one part is true and the other is false**. If both are true or both are false, the `XOR` statement is false.
+### 2.1 Conditional Statements
 
--   **Analogy:** At a restaurant, a meal special might include a soup **OR** a salad, but not both. You must choose exactly one. You can't have both, and you can't have neither.
--   **Formal Name:** Exclusive Disjunction
--   **Symbol:** $\oplus$
--   **Reads:** "P xor Q"
--   **Truth Table:**
+#### **Implication (IF... THEN)**
 
-| P | Q | P $\oplus$ Q |
-|:-------:|:-------:|:------------:|
-| True    | True    | False        |
-| True    | False   | True         |
-| False   | True    | True         |
-| False   | False   | False        |
+**The `IF...THEN` operation is about a promise.** "If P, then Q" means if P is true, Q must also be true. The only way the promise is broken is if P is true, but Q is false.
 
----\n
-
-### 5. Implication (IF... THEN)
-
-**The `IF...THEN` operation is about a promise or a condition.** The statement "If P, then Q" means that **if P is true, then Q must also be true**. The only way this "promise" is broken is if P is true, but Q is false.
-
--   **Analogy:** Your parents say, "IF you clean your room (P), THEN you can have dessert (Q)."
-    -   If you clean your room (P is True) and get dessert (Q is True), the promise was kept.
-    -   If you clean your room (P is True) but don't get dessert (Q is False), the promise was broken. This is the only false case.
-    -   If you don't clean your room (P is False), the promise isn't broken whether you get dessert or not. The condition wasn't met, so the promise is technically not violated.
--   **Formal Name:** Material Implication / Conditional
+-   **Analogy:** "IF you clean your room (P), THEN you can have dessert (Q)." The promise is only broken if you clean your room but get no dessert.
 -   **Symbol:** $\implies$
 -   **Reads:** "If P, then Q"
 -   **Truth Table:**
-
 | P | Q | P $\implies$ Q |
-|:-------:|:-------:|:--------------:|
-| True    | True    | True           |
-| True    | False   | False          |
-| False   | True    | True           |
-| False   | False   | True           |
+|:---:|:---:|:---:|
+| T | T | T |
+| T | F | F |
+| F | T | T |
+| F | F | T |
 
----\n
+#### **Converse, Inverse, and Contrapositive**
 
-### 6. Biconditional (IF AND ONLY IF)
+From an implication "If P, then Q", we can create three related statements:
+-   **Converse:** "If Q, then P" ($f{Q \implies P}$)
+-   **Inverse:** "If not P, then not Q" ($f{\neg P \implies \neg Q}$)
+-   **Contrapositive:** "If not Q, then not P" ($f{\neg Q \implies \neg P}$)
+**Important:** An implication and its contrapositive are logically equivalent!
 
-**The `Biconditional` operation is about equivalence.** The statement "P if and only if Q" is true only if **P and Q have the same truth value**. They are either both true or both false.
+### 2.2 Equivalence
 
--   **Analogy:** The statement "The light is on (P) if and only if the switch is up (Q)" means the two states are locked together. If the switch is up, the light is on. If the switch is down, the light is off. You can't have one without the other.
--   **Formal Name:** Biconditional / Material Equivalence
+#### **Biconditional (IF AND ONLY IF)**
+
+**The `Biconditional` is about equivalence.** "P if and only if Q" is true only if **P and Q have the same truth value**.
+
+-   **Analogy:** "The light is on (P) if and only if the switch is up (Q)." The two states are locked together.
 -   **Symbol:** $\iff$
 -   **Reads:** "P if and only if Q"
 -   **Truth Table:**
-
 | P | Q | P $\iff$ Q |
-|:-------:|:-------:|:-----------:|
-| True    | True    | True        |
-| True    | False   | False       |
-| False   | True    | False       |
-| False   | False   | True        |
+|:---:|:---:|:---:|
+| T | T | T |
+| T | F | F |
+| F | T | F |
+| F | F | T |
 
----\n
-### 7. Exclusive-NOR (XNOR)
+#### **Logical Equivalence**
+Two statements are logically equivalent if they always have the same truth value.
+-   **De Morgan's Laws:** A famous example.
+    -    $\neg(P \land Q)$ is equivalent to $(\neg P \lor \neg Q)$
+    -    $\neg(P \lor Q)$ is equivalent to $(\neg P \land \neg Q)$
+-   **Double Negation:** $\neg(\neg P)$ is equivalent to $P$.
 
-**The `XNOR` operation is the negation of `XOR` and is about being the same.** It is true only if both inputs are the same (both true or both false). This is logically equivalent to the biconditional.
+### 2.3 Statement Classifications
 
--   **Analogy:** Imagine a game where two players win if they both press their button at the same time (both True) OR if they both don't press it (both False). They lose if one player presses it and the other doesn't.
--   **Formal Name:** Exclusive-NOR
--   **Symbol:** $\odot$
--   **Reads:** "P xnor Q"
--   **Truth Table:**
+-   **Tautology:** A statement that is **always true**, regardless of the truth values of its components. (e.g., $P \lor \neg P$)
+-   **Contradiction:** A statement that is **always false**. (e.g., $P \land \neg P$)
+-   **Contingency:** A statement that can be either true or false.
 
-| P | Q | P $\odot$ Q |
-|:-------:|:-------:|:------------:|
-| True    | True    | True         |
-| True    | False   | False        |
-| False   | True    | False        |
-| False   | False   | True         |
+### 2.4 Operator Precedence
+When evaluating complex statements, follow this order:
+1.  Parentheses `( )`
+2.  Negation `¬`
+3.  Conjunction `∧`
+4.  Disjunction `∨`
+5.  Implication `→`
+6.  Biconditional `↔`
+
+---
+
+## Chapter 3: Practice Exercises
+
+Test your knowledge! Determine the truth value of the following complex statements.
+
+Let P = "It is raining." (True)
+Let Q = "I have an umbrella." (False)
+Let R = "I will get wet." (True)
+
+1.  $P \land Q$
+2.  $P \lor Q$
+3.  $Q \implies R$
+4.  $\neg Q \implies R$
+5.  $(P \land \neg Q) \implies R$
+
+---
+### Solutions
+
+1.  **False**. (True AND False is False)
+2.  **True**. (True OR False is True)
+3.  **True**. (False implies True is True - the promise wasn't broken)
+4.  **True**. (True implies True is True)
+5.  **True**. (P is True, not Q is True -> (True AND True) is True. So, True implies R (True) is True.)

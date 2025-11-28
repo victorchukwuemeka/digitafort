@@ -23,23 +23,25 @@ A comprehensive course outline for learning the fundamentals of Python programmi
 ### 4. Control Flow
 - `if` Statements
 - `try...except` for Error Handling
-- Loops (`for` and `while`)
 
-### 5. Data Structures
+### 5. Loops
+- `for` and `while` Loops
+
+### 6. Data Structures
 - Introduction to Python's built-in data structures.
 
-### 6. Functions
+### 7. Functions
 - Defining and using functions
 - Lambda functions
 
-### 7. File Handling
+### 8. File Handling
 - Reading from and writing to files.
 
-### 8. Databases
+### 9. Databases
 - Interacting with a database using `sqlite3`.
 
-### 9. GUI Development
+### 10. GUI Development
 - Creating graphical user interfaces with CustomTkinter.
 
-### 10. Code Quality
+### 11. Code Quality
 - Writing clean code with PEP 8.

@@ -248,3 +248,66 @@ Let R = "I will get wet." (1)
 3.  **1**. (0 implies 1 is 1 - the promise wasn't broken)
 4.  **1**. (NOT 0 is 1. 1 implies 1 is 1)
 5.  **1**. (P is 1, not Q is 1 -> (1 AND 1) is 1. So, 1 implies R (1) is 1.)
+---
+## Chapter 5: Summary of Logical Symbols
+
+| Symbol | Name | Explanation | Example |
+| :---: | :--- | :--- | :--- |
+| $\neg$ | Negation (NOT) | Flips the truth value of a statement. | $\neg P$ ("not P") |
+| $\land$ | Conjunction (AND) | True only if both statements are true. | $P \land Q$ ("P and Q") |
+| $\lor$ | Disjunction (OR) | True if at least one statement is true. | $P \lor Q$ ("P or Q") |
+| $\oplus$ | Exclusive OR (XOR) | True if exactly one statement is true. | $P \oplus Q$ ("P or Q, but not both") |
+| $\implies$ | Implication | False only when the first statement is true and the second is false. | $P \implies Q$ ("If P, then Q") |
+| $\iff$ | Biconditional | True only if both statements have the same truth value. | $P \iff Q$ ("P if and only if Q") |
+| $\iff$ | Logical Equivalence | Indicates two statements have the same truth table. | $\neg(P \land Q) \iff \neg P \lor \neg Q$ |
+| T | Tautology | A statement that is always true. | $P \lor \neg P$ |
+| F | Contradiction | A statement that is always false. | $P \land \neg P$ |
+| $\therefore$ | Therefore | Used in arguments to indicate a conclusion. | "If P then Q. P. Therefore, Q." ($P \implies Q, P \therefore Q$) |
+
+---
+## Appendix: Graphical Gate Symbols (ASCII Art)
+
+While this course focuses on the mathematical symbols of propositional logic (e.g., `∧`, `∨`), in electronics and computer science, logic is often represented with graphical symbols for "gates." As this is a text-based format, here are simplified "drawings" of those common symbols using text characters.
+
+### AND Gate
+The AND gate has a straight back and a curved front, like a capital 'D'. The output `Z` is 1 only if both inputs `P` and `Q` are 1.
+
+```
+P -----|
+       | D---- Z
+Q -----|
+```
+
+### OR Gate
+The OR gate has a curved back and a curved, pointed front. The output `Z` is 1 if either `P` or `Q` (or both) are 1.
+
+```
+P -----|
+       | >---- Z
+Q -----|
+```
+
+### NOT Gate (Inverter)
+The NOT gate is a triangle followed by a small circle. The circle signifies inversion. The output `Z` is the opposite of the input `P`.
+
+```
+P -----|>o---- Z
+```
+
+### XOR Gate (Exclusive OR)
+The XOR gate looks like an OR gate, but with an extra curved line at the back. The output `Z` is 1 if `P` and `Q` are different.
+
+```
+P -----|
+       | >---- Z
+Q -----|
+```
+
+### NAND, NOR, and XNOR Gates
+These are the inverted versions of the primary gates, signified by adding the small circle `o` at the output.
+
+- **NAND:** An AND gate with an inverter circle. ` (P ∧ Q)' `
+- **NOR:** An OR gate with an inverter circle. ` (P ∨ Q)' `
+- **XNOR:** An XOR gate with an inverter circle. ` (P ⊕ Q)' `
+
+```

@@ -122,11 +122,7 @@ From an implication "If P, then Q", we can create three related statements:
 | False   | False   | True        |
 
 #### **Logical Equivalence**
-Two statements are logically equivalent if they always have the same truth value.
--   **De Morgan's Laws:** A famous example.
-    -    $\neg(P \land Q)$ is equivalent to $(\neg P \lor \neg Q)$
-    -    $\neg(P \lor Q)$ is equivalent to $(\neg P \land \neg Q)$
--   **Double Negation:** $\neg(\neg P)$ is equivalent to $P$.
+Two statements are logically equivalent if they always have the same truth value. This concept is central to the algebra of propositions.
 
 ### 2.3 Statement Classifications
 
@@ -145,13 +141,98 @@ When evaluating complex statements, follow this order:
 
 ---
 
-## Chapter 3: Practice Exercises
+## Chapter 3: The Algebra of Propositions (Laws of Logic)
+
+Just like algebra with numbers, propositional logic has rules that allow us to manipulate and simplify logical statements. These rules are all based on logical equivalence. In the following laws, `T` represents a Tautology (always True) and `F` represents a Contradiction (always False).
+
+### 3.1 Identity Laws
+A statement's value is unchanged when combined with `T` (True) in a conjunction or `F` (False) in a disjunction.
+-   $P \land T \iff P$
+-   $P \lor F \iff P$
+
+### 3.2 Domination Laws
+A statement is dominated by (takes the value of) `T` in a disjunction or `F` in a conjunction.
+-   $P \lor T \iff T$
+-   $P \land F \iff F$
+
+### 3.3 Idempotent Laws
+Combining a statement with itself doesn't change its value.
+-   $P \lor P \iff P$
+-   $P \land P \iff P$
+
+### 3.4 Double Negation Law
+"Two negatives make a positive."
+-   $\neg (\neg P) \iff P$
+
+### 3.5 Commutative Laws
+The order of statements doesn't matter for `AND` and `OR`.
+-   $P \lor Q \iff Q \lor P$
+-   $P \land Q \iff Q \land P$
+
+### 3.6 Associative Laws
+The grouping of statements doesn't matter for `AND` and `OR`.
+-   $(P \lor Q) \lor R \iff P \lor (Q \lor R)$
+-   $(P \land Q) \land R \iff P \land (Q \land R)$
+
+### 3.7 Distributive Laws
+`AND` and `OR` can be distributed over each other.
+-   $P \land (Q \lor R) \iff (P \land Q) \lor (P \land R)$
+-   $P \lor (Q \land R) \iff (P \lor Q) \land (P \lor R)$
+
+### 3.8 De Morgan's Laws
+These laws define how to negate a conjunction or a disjunction.
+-    $\neg(P \land Q) \iff \neg P \lor \neg Q$
+-    $\neg(P \lor Q) \iff \neg P \land \neg Q$
+
+### 3.9 Absorption Laws
+A statement can "absorb" a more complex one.
+-   $P \lor (P \land Q) \iff P$
+-   $P \land (P \lor Q) \iff P$
+
+### 3.10 Negation Laws (Inverse Laws)
+Combining a statement with its negation gives a tautology or a contradiction.
+-   $P \lor \neg P \iff T$ (Law of the Excluded Middle)
+-   $P \land \neg P \iff F$ (Law of Non-Contradiction)
+
+### 3.11 Example and Proof of Logical Equivalence: De Morgan's First Law
+
+Let's illustrate the logical equivalence of De Morgan's First Law: $\neg(P \land Q) \iff (\neg P \lor \neg Q)$.
+
+**English Example:**
+
+Let P be the statement: "It is sunny."
+Let Q be the statement: "I am going to the beach."
+
+**Left Side: $\neg(P \land Q)$**
+"It is NOT (sunny AND I am going to the beach)."
+This means it's not true that both things are happening. So, either it's not sunny, or I'm not going to the beach, or both.
+
+**Right Side: $(\neg P \lor \neg Q)$**
+"It is NOT sunny OR I am NOT going to the beach."
+This also means the same thing: at least one of those conditions (not sunny, or not going to the beach) is true.
+
+**Truth Table Proof:**
+
+To prove this equivalence, we construct a truth table and show that the final column for $\neg(P \land Q)$ is identical to the final column for $(\neg P \lor \neg Q)$. (Here, 1 represents True, and 0 represents False).
+
+| P | Q | P $\land$ Q | $\neg(P \land Q)$ | $\neg P$ | $\neg Q$ | $\neg P \lor \neg Q$ |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 1 | 1 | 1 | 0 | 0 | 0 | 0 |
+| 1 | 0 | 0 | 1 | 0 | 1 | 1 |
+| 0 | 1 | 0 | 1 | 1 | 0 | 1 |
+| 0 | 0 | 0 | 1 | 1 | 1 | 1 |
+
+As you can see, the column for $\neg(P \land Q)$ and the column for $(\neg P \lor \neg Q)$ are identical for all possible truth value combinations of P and Q. This proves their logical equivalence.
+
+---
+
+## Chapter 4: Practice Exercises
 
 Test your knowledge! Determine the truth value of the following complex statements.
 
-Let P = "It is raining." (True)
-Let Q = "I have an umbrella." (False)
-Let R = "I will get wet." (True)
+Let P = "It is raining." (1)
+Let Q = "I have an umbrella." (0)
+Let R = "I will get wet." (1)
 
 1.  $P \land Q$
 2.  $P \lor Q$
@@ -162,8 +243,8 @@ Let R = "I will get wet." (True)
 ---
 ### Solutions
 
-1.  **False**. (True AND False is False)
-2.  **True**. (True OR False is True)
-3.  **True**. (False implies True is True - the promise wasn't broken)
-4.  **True**. (True implies True is True)
-5.  **True**. (P is True, not Q is True -> (True AND True) is True. So, True implies R (True) is True.)
+1.  **0**. (1 AND 0 is 0)
+2.  **1**. (1 OR 0 is 1)
+3.  **1**. (0 implies 1 is 1 - the promise wasn't broken)
+4.  **1**. (NOT 0 is 1. 1 implies 1 is 1)
+5.  **1**. (P is 1, not Q is 1 -> (1 AND 1) is 1. So, 1 implies R (1) is 1.)

@@ -31,12 +31,13 @@ We can perform operations on propositions to create more complex ones, much like
 -   **Symbol:** $\land$
 -   **Reads:** "P and Q"
 -   **Truth Table:**
+
 | P | Q | P $\land$ Q |
-|:---:|:---:|:---:|
-| T | T | T |
-| T | F | F |
-| F | T | F |
-| F | F | F |
+|:-------:|:-------:|:-----------:|
+| True    | True    | True        |
+| True    | False   | False       |
+| False   | True    | False       |
+| False   | False   | False       |
 
 ---
 
@@ -48,12 +49,13 @@ We can perform operations on propositions to create more complex ones, much like
 -   **Symbol:** $\lor$
 -   **Reads:** "P or Q"
 -   **Truth Table:**
+
 | P | Q | P $\lor$ Q |
-|:---:|:---:|:---:|
-| T | T | T |
-| T | F | T |
-| F | T | T |
-| F | F | F |
+|:-------:|:-------:|:----------:|
+| True    | True    | True       |
+| True    | False   | True       |
+| False   | True    | True       |
+| False   | False   | False      |
 
 ---
 
@@ -65,10 +67,11 @@ We can perform operations on propositions to create more complex ones, much like
 -   **Symbol:** $\neg$
 -   **Reads:** "not P"
 -   **Truth Table:**
+
 | P | $\neg$ P |
-|:---:|:---:|
-| T | F |
-| F | T |
+|:-------:|:--------:|
+| True    | False    |
+| False   | True     |
 
 ---
 
@@ -84,12 +87,13 @@ We can perform operations on propositions to create more complex ones, much like
 -   **Symbol:** $\implies$
 -   **Reads:** "If P, then Q"
 -   **Truth Table:**
+
 | P | Q | P $\implies$ Q |
-|:---:|:---:|:---:|
-| T | T | T |
-| T | F | F |
-| F | T | T |
-| F | F | T |
+|:-------:|:-------:|:--------------:|
+| True    | True    | True           |
+| True    | False   | False          |
+| False   | True    | True           |
+| False   | False   | True           |
 
 #### **Converse, Inverse, and Contrapositive**
 
@@ -109,12 +113,13 @@ From an implication "If P, then Q", we can create three related statements:
 -   **Symbol:** $\iff$
 -   **Reads:** "P if and only if Q"
 -   **Truth Table:**
+
 | P | Q | P $\iff$ Q |
-|:---:|:---:|:---:|
-| T | T | T |
-| T | F | F |
-| F | T | F |
-| F | F | T |
+|:-------:|:-------:|:-----------:|
+| True    | True    | True        |
+| True    | False   | False       |
+| False   | True    | False       |
+| False   | False   | True        |
 
 #### **Logical Equivalence**
 Two statements are logically equivalent if they always have the same truth value.

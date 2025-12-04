@@ -1,7 +1,45 @@
 import requests
 
-res  = requests.get('https://jsonplaceholder.typicode.com/users')
+#res = requests.get('https://jsonplaceholder.typicode.com/users')
+#print(res.json())
+#res  = requests.get('https://jsonplaceholder.typicode.com/users')
 
+"""
+if res.status_code == 200:
+    data = res.json()
+    print(data)
+else:
+    print(f"Error: {res.status_code}")
+"""
+
+"""
+res = requests.patch('https://jsonplaceholder.typicode.com/users/5', 'json=update_user')
+update_user = {
+    'name' : 'vic',
+    'email' : 'example@gmail.com',
+    'age' : 90
+}
+#print(res.status_code)
+
+if res.status_code == 200:
+    updated_user  = res.json()
+    #print(updated_user)
+    print(f"user created with ID:{updated_user['age']}")
+
+"""
+
+res = requests.delete('https://jsonplaceholder.typicode.com/users/5')
+
+#print(res.status_code)
+print(res)
+
+
+
+
+#ress = requests.put('https://httpbin.org/put', data={'key': 'value'})
+#print(ress.status_code)
+
+"""
 if res.status_code ==  200:
     data = res.json()
     print(data)
@@ -45,3 +83,4 @@ if res.status_code == 204:
 
 headers = {'Authorization': 'Token your-token-here'}
 response = requests.get('https://api.example.com/profile', headers=headers)
+"""

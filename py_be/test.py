@@ -48,8 +48,8 @@ print(age)
 """
 
 
-boy = "victor"
-print(boy)
+#boy = "victor"
+#print(boy)
 
 
 """
@@ -124,6 +124,7 @@ result = is_even(5)
 print(result)
 """
 
+"""
 def hello():
     return " Good girl"
 
@@ -162,15 +163,15 @@ big_list = [10, 25, 14, 99, 3, 87, 200, 150]
 
 
 
+"""
+
+#largest_in_list(big_list)
 
 
-largest_in_list(big_list)
+#def add(a,b):
+#    return a+b
 
-
-def add(a,b):
-    return a+b
-
-add(4,8)
+#add(4,8)
 
 
 ##print(largest_in_list(big_list))  
@@ -225,7 +226,7 @@ print(f"Employees sorted by age: {sorted_by_age}")
 print()
 
 """
-
+"""
 people = [
     {"name": "John", "age": 30},
     {"name": "Alice", "age": 25},
@@ -235,3 +236,94 @@ people = [
     ]
 people_sorted = sorted(people, key=lambda x: x['age'])
 print(people_sorted)
+"""
+
+#time = open("year.py", 'w')
+#time.write("good boy jjjgjgjgjgjgjgjg")
+
+"""
+
+try:
+    with open("example.txt", "w") as file:
+        file.write("Hello, this is the first line.\n")
+        file.write("This is the second line.\n")
+        file.write("And this is the third.\n")
+    print("Successfully created and wrote to example.txt")
+except IOError as e:
+    print(f"An error occurred during writing: {e}")
+print()
+
+"""
+
+"""
+try:
+    with open("example.txt",'a') as file:
+        file.write(" last one \n")
+except IOError as e:
+    print(e)
+
+
+
+"""
+
+
+"""
+try:
+    with open("example.txt", "a") as file:
+        file.write("This is a fourth line, appended to the file.\n")
+except IOError as e:
+    print(e)
+"""
+
+
+
+
+
+""""
+try:
+    with open("example.txt", "r") as file:
+        lines = file.readlines()
+        for line in lines:
+            pr
+
+except IOError as e:
+    print(e)
+print()
+"""
+
+
+"""
+import sqlite3
+import os
+
+DB_FILE = "example.db"
+
+if os.path.exists(DB_FILE):
+    os.remove(DB_FILE)
+    print(f"Removed old database file: {DB_FILE}")
+else:
+    print(f"No db path was found ")
+
+
+
+try:
+    conn = sqlite3.connect(DB_FILE)
+    print("connected")
+except sqlite3.Error as e:
+    exit()
+"""
+
+
+
+
+"""
+age  = int(input())
+name_type = type(age)
+print(name_type)
+"""
+
+"""
+amount = float(input())
+name_type = type(amount)
+print(name_type)
+"""

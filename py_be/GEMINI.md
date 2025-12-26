@@ -19,6 +19,11 @@ A comprehensive course outline for learning the fundamentals of Python programmi
 ### 3. Operators
 - Arithmetic Operators
 - Logical Operators
+- Comparison Operators
+- Assignment Operators
+- Bitwise Operators
+- Identity Operators
+- Membership Operators
 
 ### 4. Control Flow
 - `if` Statements

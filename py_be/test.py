@@ -163,20 +163,6 @@ except sqlite3.Error as e:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # --- 7. Closing the Connection ---
 # It's important to close the connection when you're done with it to free up resources.
 # A `finally` block is a good place to ensure this happens.

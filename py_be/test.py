@@ -9,173 +9,19 @@ which makes it incredibly easy to get started with databases in Python.
 import sqlite3
 import os
 
+
 DB_FILE = "example.db"
 
-# --- 0. Cleanup previous database file for a clean run ---
+
+#todo
+# check if file exist 
+# clean the old db 
 if os.path.exists(DB_FILE):
     os.remove(DB_FILE)
-    print(f"Removed old database file: {DB_FILE}")
 
-
-# --- 1. Connecting to a Database ---
-# To interact with a SQLite database, you first need to establish a connection.
-# The `sqlite3.connect()` function will open a connection to the database file.
-# If the file does not exist, it will be created automatically.
-
-print("\n--- 1. Connecting to the database ---")
+#erro check 
+#connect 
 try:
-    # `conn` is the connection object
-    conn = sqlite3.connect(DB_FILE)
-    print(f"Successfully connected to database: {DB_FILE}")
-except sqlite3.Error as e:
-    print(f"Error connecting to database: {e}")
-    # Exit if connection fails
-    exit()
-
-
-# --- 2. Creating a Cursor and Executing SQL ---
-# A "cursor" is an object that allows you to execute SQL commands and fetch results.
-# We will use it to create a table in our database.
-
-print("\n--- 2. Creating a table ---")
-try:
-    # `cursor` is the cursor object
-    cursor = conn.cursor()
-
-    # SQL statement to create a table named 'users'
-    create_table_query = """
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY,
-        name TEXT NOT NULL,
-        email TEXT NOT NULL UNIQUE
-    );
-    """
-    cursor.execute(create_table_query)
-    print("Table 'users' created successfully (if it didn't exist).")
-
-    # To save the changes (like creating a table), you must "commit" them.
-    conn.commit()
-except sqlite3.Error as e:
-    print(f"Error creating table: {e}")
-
-
-# --- 3. Inserting Data ---
-# To insert data, we use the `INSERT` SQL statement.
-# IMPORTANT: Always use parameter substitution (the `?` placeholder) to prevent
-# SQL injection vulnerabilities.
-
-print("\n--- 3. Inserting data ---")
-try:
-    # Insert a single row
-    cursor.execute("INSERT INTO users (name, email) VALUES (?, ?)", ("Alice", "alice@example.com"))
-    print("Inserted one row for Alice.")
-
-    # Insert multiple rows
-    users_to_insert = [
-        ("Bob", "bob@example.com"),
-        ("Charlie", "charlie@example.com")
-    ]
-    cursor.executemany("INSERT INTO users (name, email) VALUES (?, ?)", users_to_insert)
-    print("Inserted multiple rows for Bob and Charlie.")
-
-    conn.commit() # Commit the insertions
-except sqlite3.Error as e:
-    print(f"Error inserting data: {e}")
-
-
-# --- 4. Querying (Selecting) Data ---
-
-
-print("\n--- 4. Querying data ---")
-try:
-    
-    cursor.execute("SELECT * FROM users")
-
-
-    print("\n--- A. Using fetchall() ---")
-    all_users = cursor.fetchall()
-    print("All users in the database:")
-    for user in all_users:
-        print(f"  ID: {user[0]}, Name: {user[1]}, Email: {user[2]}")
-
-
-
-
-
-
-    print("\n--- B. Using fetchone() ---")
-    cursor.execute("SELECT * FROM users WHERE name = ?", ("Bob",))
-    bob = cursor.fetchone()
-    if bob:
-        print(f"Found Bob: {bob}")
-    else:
-        print("Bob not found.")
-
-except sqlite3.Error as e:
-    print(f"Error querying data: {e}")
-
-
-
-
-print("\n--- 5. Updating data ---")
-try:
-    
-    update_query = "UPDATE users SET email = ? WHERE name = ?"
-    cursor.execute(update_query, ("alice.smith@newdomain.com", "Alice"))
-    conn.commit()
-    print("Updated Alice's email.")
-
-    
-    cursor.execute("SELECT * FROM users WHERE name = ?", ("Alice",))
-    updated_alice = cursor.fetchone()
-    print(f"Alice's updated info: {updated_alice}")
-
-except sqlite3.Error as e:
-    print(f"Error updating data: {e}")
-
-
-
-print("\n--- 6. Deleting data ---")
-try:
-    
-    #delete_query = "DELETE FROM users WHERE name = ?"
-    #cursor.execute(delete_query, ("Charlie",))
-    cursor.execute("DELETE FROM users WHERE name = ?",("Charlie"))
-    conn.commit()
-    print("Deleted Charlie from the database.")
-
-    
-    cursor.execute("SELECT * FROM users")
-
-    remaining_users= cursor.fetchall()
-
-    print("Remaining users:")
-    for user in remaining_users:
-        print(f"  - {user}")
-
-except sqlite3.Error as e:
-    print(f"Error deleting data: {e}")
-
-
-
-
-
-
-
-
-# --- 7. Closing the Connection ---
-# It's important to close the connection when you're done with it to free up resources.
-# A `finally` block is a good place to ensure this happens.
-
-
-"""
-print("\n--- 7. Closing the connection ---")
-finally:
-    if conn:
-        conn.close()
-        print("Database connection closed.")
-
-print("\n--- End of SQLite3 Explanation ---")
-"""
-
-
+    connect_db = sqlite3.connect(DB_FILE)
+except sqlite3.DatabaseError as e:
+    print(f"failed{e}")

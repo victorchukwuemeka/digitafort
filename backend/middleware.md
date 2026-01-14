@@ -191,3 +191,87 @@ class OrganizationAccessMiddleware:
 | **Decorators/Mixins**    | **View-level** rules and permission checks. |
 | **In-View Logic**        | **Object-level** and business logic checks. |
 | **Groups & Permissions** | Defining and managing **roles**.          |
+
+---
+
+## **Complete Example: A Combined Authorization Middleware**
+
+Here is a complete, practical example that solves a common challenge:
+1.  **Goal 1:** Block all non-authenticated users globally.
+2.  **Goal 2:** Allow access to public pages like `/login/`, `/signup/`, and the `/admin/` section.
+3.  **Goal 3:** Create a special `/staff-panel/` section that only `is_staff` users can enter.
+
+This single middleware will handle all three rules.
+
+### **The Code (`yourapp/middleware.py`)**
+
+```python
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.http import HttpResponseForbidden
+
+class StaffAndLoginRequiredMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+        
+        # We'll define public paths and prefixes during the request,
+        # so they don't cause errors if URL patterns aren't loaded yet.
+
+    def __call__(self, request):
+        # Define URL names and prefixes that do NOT require login.
+        # This is done inside __call__ to avoid issues with URL resolver loading.
+        public_url_names = ['login', 'signup'] # Assuming you have these URL names
+        public_prefixes = ['/admin/']
+
+        # --- Rule 1: Check for the staff-only section ---
+        if request.path.startswith('/staff-panel/'):
+            # If user is not logged in OR is not a staff member, deny access.
+            if not request.user.is_authenticated or not request.user.is_staff:
+                # You could redirect to login or just show a forbidden page.
+                return HttpResponseForbidden("Access Denied: This area is for staff members only.")
+            
+            # If they are staff, allow them to proceed.
+            return self.get_response(request)
+
+        # --- Rule 2: Check for global login requirement ---
+        
+        # Check if the requested path is one of our defined public URLs.
+        is_public_path = False
+        try:
+            current_url_name = request.resolver_match.url_name
+            if current_url_name in public_url_names:
+                is_public_path = True
+        except:
+            # If the URL has no name, we just proceed.
+            pass
+        
+        # Check if the path starts with a public prefix.
+        is_public_prefix = any(request.path.startswith(prefix) for prefix in public_prefixes)
+
+        # If the user is not authenticated AND the path is not public...
+        if not request.user.is_authenticated and not is_public_path and not is_public_prefix:
+            # ...redirect them to the login page.
+            return redirect(reverse('login'))
+
+        # If all checks pass, allow the request to continue to the view.
+        return self.get_response(request)
+
+```
+
+### **How to Use It**
+
+1.  **Save the Code:** Place this class into a file like `yourapp/middleware.py`.
+2.  **Register It:** Add the middleware to your `settings.py`. It's crucial to place it *after* Django's built-in `AuthenticationMiddleware`.
+
+    ```python
+    # settings.py
+    MIDDLEWARE = [
+        # ...
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware', # request.user is added here
+        'django.contrib.messages.middleware.MessageMiddleware',
+        # ...
+        'yourapp.middleware.StaffAndLoginRequiredMiddleware', # Our custom middleware
+    ]
+    ```
+3.  **Define URLs:** Ensure your `urls.py` files have URL patterns with the names `'login'` and `'signup'`, as well as some views under `/staff-panel/` to test the functionality.

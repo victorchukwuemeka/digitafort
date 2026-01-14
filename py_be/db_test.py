@@ -34,6 +34,8 @@ try:
     );
     """
 
+
+
     cursor.execute(create_table_query)
     print("Create the table")
     conn.commit()
@@ -63,5 +65,3 @@ except sqlite3.Error as e:
     print(f"Error inserting data: {e}")
 
 
-num = [4,5]
-(a,b) = num

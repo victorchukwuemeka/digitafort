@@ -10,18 +10,22 @@ import sqlite3
 import os
 
 
-DB_FILE = "example.db"
+#DB_FILE = "example.db"
 
 
 #todo
 # check if file exist 
 # clean the old db 
-if os.path.exists(DB_FILE):
-    os.remove(DB_FILE)
+#if os.path.exists(DB_FILE):
+#    os.remove(DB_FILE)
 
 #erro check 
 #connect 
-try:
-    connect_db = sqlite3.connect(DB_FILE)
-except sqlite3.DatabaseError as e:
-    print(f"failed{e}")
+#try:
+#    connect_db = sqlite3.connect(DB_FILE)
+#except sqlite3.DatabaseError as e:
+#    print(f"failed{e}")
+
+
+name = input(" Name :")
+print(name)

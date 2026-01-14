@@ -1,5 +1,4 @@
 
-"""
 import tkinter as tk
 
 root = tk.Tk()
@@ -8,36 +7,28 @@ root.title(" Your App")
 
 
 label = tk.Label(root, text="Hello, Tkinter!")
-def on_button_click():
-    print("button click")
+#def on_button_click():
+#    print("button click")
 
 #button = tk.Button(root, text="Click me", command=on_button_click)
 #button.pack()
-entry = tk.Entry(root, width=30)
-entry.pack()
+#entry = tk.Entry(root, width=30)
+#entry.pack()
 
-"""
-
-
-#root.mainloop()
-
-#print(" thht  tttn ittotntjtjnngngngng gggngng   ")
-
-x,y,p,q = True, False,5,10
+#scale = tk.Scale(root, from_=10, to=100, orient=tk.HORIZONTAL)
+#scale.pack()
 
 
-print(x and y)
-
-
-
+scrollbar = tk.Scrollbar(root)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+listbox = tk.Listbox(root,yscrollcommand=scrollbar.set)
+for i in range(50):
+    listbox.insert(tk.END, f"item{i}")
+listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+scrollbar.config(command=listbox.yview)
+root.mainloop()
 
 
 
 
 
-#root.title("your app")
-
-#label = tk.Label(root,text="hello")
-#label.pack()
-
-#root.mainloop()

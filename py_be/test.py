@@ -6,8 +6,8 @@ with SQLite databases. SQLite is a lightweight, serverless, file-based database,
 which makes it incredibly easy to get started with databases in Python.
 """
 
-import sqlite3
-import os
+#import sqlite3
+#import os
 
 
 #DB_FILE = "example.db"
@@ -27,5 +27,25 @@ import os
 #    print(f"failed{e}")
 
 
-name = input(" Name :")
-print(name)
+#name = int(input("Your Age :"))
+#print(name)
+
+name = input("YOur Name : ")
+age = int(input("Your age : "))
+gender = input("Your Gender :")
+
+
+
+
+#  check the person gender 
+if gender == "male":
+    boy = 'good day sir'
+    print(boy)
+elif gender == "female":
+    print(" good day ma")
+else:
+    print('invalid gender')
+
+
+
+print(gender)

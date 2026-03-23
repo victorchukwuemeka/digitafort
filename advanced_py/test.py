@@ -119,7 +119,7 @@ print(sub(3))
 map()
 """
 
-
+"""
 def greet():
     return "hello"
 
@@ -133,8 +133,6 @@ def greetings(good):
 
 def call_greet():
     return greet()
-
-
 
 
 def victor(a,b):
@@ -151,17 +149,103 @@ for i in num:
     print(i)
 
 
+"""
+
+
+
 #sum = [2,3,4,5,55,66,6]
 
 #lambda sum : sum[0+1] 
 
 
-map(lambda x:x+x, [1,2,3])
+# map(lambda x:x+x, [1,2,3])
+
+"""
+def cd(n):
+    while n > 0:
+        yield n
+        n -= 1
+
+for num in cd(10):
+    print(num)
+
+
+def d_report():
+    yield " standup"
+    yield " bug fix"
+    yield "pr submited"
+    yield "deployments"
+
+
+for today in d_report():
+    print(today)
 
 
 
+def f():
+    a,b = 0,1
+    while True:
+        yield a,b
+        a,b = b , a + b
+
+for j in f():
+    print(j) 
+
+"""
+"""
+def go_and_eat(eat: bool):
+    print(" EATING")
+    return True
+
+eaten = False
+while eaten == False:
+    go_and_eat(eaten)
+    eaten = True
+    print(eaten)
+
+"""
 
 
-a = 10
-b = 2
-add = a + b 
+"""
+import inspect
+
+def simp_gen():
+    yield 1
+    yield 2
+
+gen = simp_gen()
+print(inspect.getgeneratorstate(gen))
+
+next(gen)
+print(inspect.getgeneratorstate(gen))
+
+
+next(gen)
+print(inspect.getgeneratorstate(gen))   
+
+
+try:
+    next(gen)
+except StopIteration:
+    pass
+
+print(inspect.getgeneratorstate(gen))   
+g = (x for x in range(1000000))
+
+for _ in range(20):
+      print(next(g), end=' ')
+
+even = (x for x in range(100) if x % 2 == 0)
+
+for u in even:
+    print(u)
+
+"""
+
+
+
+m = [[1,2,3], [4,5,6], [7,8,9]]
+f = (n for row in m for n in row)
+
+for i in f:
+    print(i)

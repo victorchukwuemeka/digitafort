@@ -476,6 +476,8 @@ if os.path.exists(DB_FILE):
     print(f"cleared the old data in {DB_FILE}")
 
 
+
+
 """
 db connections , we stated 
 """
@@ -493,5 +495,39 @@ name  TEXT NOT NULL,
 email TEXT NOT NULL UNIQUE
 )
 """
+
 cur.execute(create_tb_q)
 print("EXecuted")
+
+
+
+cur.execute("INSERT INTO users (name,email) VALUES (?, ?)", ('alice', 'alice@gmail.com'))
+
+
+many_users = [
+    ("victor","vitor@gmail.com"),
+    ("cine", "cine@gmail.com")
+]
+
+cur.executemany("INSERT INTO users(name , email) VALUES (?,?)", many_users)
+
+conn.commit()
+
+
+update_query = "UPDATE users SET email= ? WHERE name = ?"
+
+cur.execute(update_query, ("alice.whatever@mail.come", "alice"))
+conn.commit()
+
+delete_query = "DELETE  FROM users WHERE name = ?"
+cur.execute(delete_query,("victor",))
+conn.commit()
+
+
+cur.execute("SELECT * FROM users")
+
+all_users = cur.fetchall()
+for user in all_users:
+    print(f"  ID: {user[0]}, Name: {user[1]}, Email: {user[2]}")
+
+

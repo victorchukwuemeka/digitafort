@@ -29,3 +29,26 @@ def s_d(g,start,end):
     return -1 
 
 """
+
+
+
+
+
+
+from collections import deque
+
+
+# shortest distance to the exist using multiple route
+def update_matric(mat):
+    # our grid 
+    rows, cols = len(mat), len(mat[0])
+
+    # distance 
+    dist  = [[float('inf')] * cols for i in range(rows)]
+    # structure fifo
+    queue = deque()
+     
+    #
+    for r in range(rows):
+
+

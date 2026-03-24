@@ -403,29 +403,66 @@ def update_matrix(mat):
 
 ## 8. Bidirectional BFS
 
-For finding the shortest path between two specific nodes, **bidirectional BFS** can be dramatically faster. Instead of searching from just the start, you search from **both** the start and the end simultaneously, meeting in the middle.
+**When you already know the start and the goal**, bidirectional BFS is the fastest way to get the shortest path in an unweighted graph.
 
-- Regular BFS explores O(b^d) nodes (b = branching factor, d = depth)
-- Bidirectional BFS explores O(b^(d/2)) nodes from each side — exponentially faster
+### Core Idea (Plain English)
+Normal BFS grows outward from the start:
+`S -> neighbors -> neighbors of neighbors -> ...`
 
+Bidirectional BFS grows **from both ends** at the same time:
+`S -> ... <- G`
+
+The two search waves meet in the middle, so you explore far fewer nodes.
+
+### Why It’s Faster
+- Regular BFS explores about **O(b^d)** nodes
+- Bidirectional BFS explores about **O(b^(d/2))** from each side
+
+### Visual (Meet in the Middle)
+```
+Level 0:   S                           G
+Level 1:   a   b   c               x   y   z
+Level 2:   d   e   f     <--->     u   v   w
+                     (frontiers meet here)
+```
+
+### Step-by-Step Example
+```
+Graph:
+S - A - B - C - D - G
+    \         /
+      E ---- F
+
+Expand from S: {S} -> {A, E}
+Expand from G: {G} -> {D, F}
+Next expand from S: {B}
+Next expand from G: {C}
+Now B connects to C, frontiers meet.
+```
+
+### Key Rules (Don’t Miss These)
+- Use **two queues/sets** (frontier from start and frontier from goal)
+- **Always expand the smaller frontier** to minimize work
+- The moment a node is seen by both sides, **you found the shortest path**
+
+### Clean Python Implementation
 ```python
 from collections import deque
 
-def bidirectional_bfs(graph, start, end):
-    if start == end:
+def bidirectional_bfs(graph, start, goal):
+    if start == goal:
         return 0
 
-    # Two frontiers
     front = {start}
-    back = {end}
+    back = {goal}
     visited_front = {start}
-    visited_back = {end}
+    visited_back = {goal}
     dist = 0
 
     while front and back:
         dist += 1
 
-        # Always expand the smaller frontier
+        # Expand the smaller side for efficiency
         if len(front) > len(back):
             front, back = back, front
             visited_front, visited_back = visited_back, visited_front
@@ -434,14 +471,20 @@ def bidirectional_bfs(graph, start, end):
         for node in front:
             for neighbor in graph[node]:
                 if neighbor in visited_back:
-                    return dist         # The two frontiers met!
+                    return dist
                 if neighbor not in visited_front:
                     visited_front.add(neighbor)
                     next_front.add(neighbor)
+
         front = next_front
 
-    return -1   # No path
+    return -1  # No path
 ```
+
+### When to Use It
+- You have a **single source** and **single target**
+- The graph is **unweighted**
+- You only need the shortest path length (or can store parents to rebuild the path)
 
 ---
 

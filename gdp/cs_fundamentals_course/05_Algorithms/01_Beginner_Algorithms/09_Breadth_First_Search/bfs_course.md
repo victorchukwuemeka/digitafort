@@ -415,8 +415,8 @@ Bidirectional BFS grows **from both ends** at the same time:
 The two search waves meet in the middle, so you explore far fewer nodes.
 
 ### Why It’s Faster
-- Regular BFS explores about **O(b^d)** nodes
-- Bidirectional BFS explores about **O(b^(d/2))** from each side
+- Regular BFS explores about **O(b^d)** nodes *(b = branching factor, d = shortest path length)*
+- Bidirectional BFS explores about **O(b^(d/2))** from each side *(same b and d)*
 
 ### Visual (Meet in the Middle)
 ```
@@ -480,6 +480,22 @@ def bidirectional_bfs(graph, start, goal):
 
     return -1  # No path
 ```
+```
+graph = {
+    "S": ["A", "E"],
+    "A": ["S", "B"],
+    "B": ["A", "C"],
+    "C": ["B", "D"],
+    "D": ["C", "G"],
+    "E": ["S", "F"],
+    "F": ["E", "G"],
+    "G": ["D", "F"]
+}
+
+print(bidirectional_bfs(graph, "S", "G"))  # -> shortest distance
+
+```   
+
 
 ### When to Use It
 - You have a **single source** and **single target**

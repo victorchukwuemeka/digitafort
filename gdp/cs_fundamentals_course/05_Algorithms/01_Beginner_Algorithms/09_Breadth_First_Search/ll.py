@@ -25,3 +25,17 @@ def bd(graph, start, goal):
 
 
 
+
+
+
+
+from collections import deque 
+
+def s_sh_p_w_k(grid, k):
+    rows, cols = len(grid), len(grid[0])
+
+    #rows ,cols and remaining breaks 
+    start = (0,0,k)
+    q = deque([(start, 0)])
+    
+

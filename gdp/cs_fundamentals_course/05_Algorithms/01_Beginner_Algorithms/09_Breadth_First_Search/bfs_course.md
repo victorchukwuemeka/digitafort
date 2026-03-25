@@ -549,6 +549,45 @@ Same grid cell, but different node because layer is different.
 - A virtual node = a **real position + extra info**
 - So `(2,3, day)` and `(2,3, night)` are two different nodes in the BFS graph
 
+**Diagram 1: One cell becomes two nodes**
+```text
+Grid cell (2,3)
+      |
+      v
+  +-----------+           +-----------+
+  | (2,3,day) | <-------> | (2,3,night) |
+  +-----------+   toggle  +-----------+
+
+Same location, different state => different nodes.
+```
+
+**Diagram 2: Layers = virtual graph**
+```text
+Original grid (positions only)
+  (0,0) -- (0,1)
+    |        |
+  (1,0) -- (1,1)
+
+State layers (day/night)
+Day layer:                      Night layer:
+  (0,0,day) -- (0,1,day)         (0,0,night) -- (0,1,night)
+       |            |                 |               |
+  (1,0,day) -- (1,1,day)         (1,0,night) -- (1,1,night)
+
+Moves stay in the same layer.
+State changes (day<->night) move between layers.
+```
+
+**Diagram 3: Why visited must include state**
+```text
+Visited by position only:
+  (2,3) visited  -> blocks (2,3,night) even if needed later
+
+Visited by full state:
+  (2,3,day) visited
+  (2,3,night) still allowed
+```
+
 **A simple checklist**
 - Does a rule change what moves are allowed? Put it in the state.
 - Can the same position lead to different futures? Put the difference in the state.

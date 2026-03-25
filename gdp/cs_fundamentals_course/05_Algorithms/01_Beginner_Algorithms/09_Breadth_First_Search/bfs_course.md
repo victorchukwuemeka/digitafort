@@ -705,6 +705,17 @@ def bfs_keys(grid):
     return -1
 ```
 
+**Key mask (super simple)**
+```text
+Keys:   a  b  c  d  e  f
+Bits:   0  1  2  3  4  5
+
+Have keys: a and c
+Mask bits: 1 0 1 0 0 0
+
+So the "key mask" is just a tiny on/off checklist stored in one number.
+```
+
 **Rule of thumb**
 - If a rule changes what moves are possible, it belongs in the state.
 - If two paths with different histories can lead to different futures, track that history in the state.

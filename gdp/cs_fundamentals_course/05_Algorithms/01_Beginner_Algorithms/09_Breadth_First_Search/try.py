@@ -259,3 +259,7 @@ def island(grid):
             for dr , dc in [(0,1),(0,-1),(1,0),(-1,0)]:
                 
 """
+
+
+ll = 2
+print(type({ll}))

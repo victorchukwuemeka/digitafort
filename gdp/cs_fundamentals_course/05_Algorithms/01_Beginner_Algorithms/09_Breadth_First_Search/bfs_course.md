@@ -510,6 +510,50 @@ print(bidirectional_bfs(graph, "S", "G"))  # -> shortest distance
 
 When the "node" in your BFS isn't just a location but a combination of location + state (e.g., position + number of keys collected), encode the full state as the queue element.
 
+**Plain-English definition**
+- A **state** is "everything that matters for future moves."
+- If that "everything" changes, you are at a **different node**, even if the position is the same.
+
+**Why this matters**
+- Two visits to the same cell can be **different** if the state is different.
+- If you only mark `(row, col)` as visited, you may wrongly prune a valid path.
+- Always store and compare the **full state**.
+
+**Common state dimensions**
+- `keys_mask`: which keys collected (bitmask)
+- `remaining_energy` or `breaks_left`
+- `time_parity`: day/night or even/odd time steps
+- `direction`: current heading (for turn-cost problems)
+- `mode`: e.g., "swim" vs "walk" vs "fly"
+
+**Virtual nodes / state expansion**
+Sometimes you "add virtuals" by **splitting one cell into multiple states**.
+Example: `(r, c, day)` and `(r, c, night)` are treated as different nodes even though they share the same grid cell.
+This turns a tricky rule into a standard BFS over a larger (but still manageable) graph.
+
+**Clearer picture of "virtual nodes"**
+Think: you are **duplicating the map** into layers, one layer per state.
+Each (row, col) appears once **in every layer**. Moving or changing state can jump you between layers.
+
+```text
+Layer 0 (day)           Layer 1 (night)
+  (2,3)                    (2,3)
+   |                         |
+   | move                   | move
+  (2,4)                    (2,4)
+
+Same grid cell, but different node because layer is different.
+```
+
+**What a virtual node means**
+- A virtual node = a **real position + extra info**
+- So `(2,3, day)` and `(2,3, night)` are two different nodes in the BFS graph
+
+**A simple checklist**
+- Does a rule change what moves are allowed? Put it in the state.
+- Can the same position lead to different futures? Put the difference in the state.
+- Would you draw two nodes for the same cell in a graph? That's a state split.
+
 ```python
 # Example: shortest path where you can break at most k walls
 from collections import deque
@@ -539,6 +583,93 @@ def shortest_path_with_k_breaks(grid, k):
     return -1
 ```
 
+**Visited rule (very important)**
+- Use `visited = {(r, c, extra)}` not just `(r, c)`.
+- The distance is tracked **per state**, not per cell.
+
+**Mini template**
+```python
+from collections import deque
+
+def bfs_with_state(start_state):
+    q = deque([start_state])
+    visited = {start_state}
+    dist = {start_state: 0}
+
+    while q:
+        state = q.popleft()
+        if is_goal(state):
+            return dist[state]
+
+        for nxt in neighbors(state):
+            if nxt not in visited:
+                visited.add(nxt)
+                dist[nxt] = dist[state] + 1
+                q.append(nxt)
+
+    return -1
+```
+
+**Example: day/night toggle (virtual nodes)**
+```python
+# Each step flips day <-> night
+def bfs_day_night(grid):
+    rows, cols = len(grid), len(grid[0])
+    start = (0, 0, 0)  # (row, col, is_night)
+    q = deque([(start, 0)])
+    visited = {start}
+
+    while q:
+        (r, c, night), d = q.popleft()
+        if (r, c) == (rows - 1, cols - 1):
+            return d
+
+        for nr, nc in moves(r, c, rows, cols):
+            if grid[nr][nc] == '#':
+                continue
+            nxt = (nr, nc, 1 - night)
+            if nxt not in visited:
+                visited.add(nxt)
+                q.append((nxt, d + 1))
+    return -1
+```
+
+**Example: keys + doors (bitmask)**
+```python
+# 0..5 keys -> 6-bit mask (a..f)
+def bfs_keys(grid):
+    rows, cols = len(grid), len(grid[0])
+    sr, sc = find_start(grid)
+    start = (sr, sc, 0)  # (row, col, keys_mask)
+    q = deque([(start, 0)])
+    visited = {start}
+
+    while q:
+        (r, c, mask), d = q.popleft()
+        if grid[r][c] == 'G':
+            return d
+
+        for nr, nc in moves(r, c, rows, cols):
+            cell = grid[nr][nc]
+            if cell == '#':
+                continue
+            new_mask = mask
+            if 'a' <= cell <= 'f':
+                new_mask |= 1 << (ord(cell) - ord('a'))
+            if 'A' <= cell <= 'F':
+                if not (mask & (1 << (ord(cell) - ord('A')))):
+                    continue  # door locked
+            state = (nr, nc, new_mask)
+            if state not in visited:
+                visited.add(state)
+                q.append((state, d + 1))
+    return -1
+```
+
+**Rule of thumb**
+- If a rule changes what moves are possible, it belongs in the state.
+- If two paths with different histories can lead to different futures, track that history in the state.
+ 
 ### Pattern 2: BFS on Implicit Graphs
 
 Some problems don't give you an explicit graph — the graph is defined by rules (e.g., word ladder: each word connects to words that differ by one letter).

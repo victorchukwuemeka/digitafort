@@ -243,9 +243,66 @@ for u in even:
 """
 
 
-
+"""
 m = [[1,2,3], [4,5,6], [7,8,9]]
 f = (n for row in m for n in row)
 
 for i in f:
     print(i)
+
+"""
+
+#load everything at once 
+"""
+def bring_data_at_once(n):
+    result = []
+    for i in range(n):
+        result.append(i * i)
+    return result 
+"""
+
+
+
+#first loading our file and getting the data line by line 
+#making their is no spaces 
+
+#filter error lines 
+
+def file_loading(filename):
+    with open(filename) as f:
+        for line in f.readlines():
+            yield line.strip()
+
+
+def filter_error(lines):
+    for line in lines :
+        if "ERROR" in lines:
+            yield line
+
+
+def parse_message(lines):
+    for line in lines:
+        parts  = line.split(' -')
+        if len(parts) >= 2:
+            yield [-1]
+
+
+def uppercase(messages):
+    for message in messages:
+        yield message.upper()
+
+
+csv = "example.csv"
+main_csv  = file_loading(csv)
+f_error = filter_error(main_csv)
+message = parse_message(f_error)
+result_message = uppercase(message)
+
+
+for r in result_message:
+    print(r)
+
+
+
+
+

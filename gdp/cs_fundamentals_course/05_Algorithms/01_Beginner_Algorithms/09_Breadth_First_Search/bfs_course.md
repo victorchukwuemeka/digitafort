@@ -724,6 +724,25 @@ So the "key mask" is just a tiny on/off checklist stored in one number.
 
 Some problems don't give you an explicit graph — the graph is defined by rules (e.g., word ladder: each word connects to words that differ by one letter).
 
+An explicit graph is one where the input already lists the nodes and their connections (like an adjacency list or edge list). An implicit graph does not list all edges; you only get rules to generate neighbors when needed.
+
+ example:
+```
+Explicit graph (given directly):
+Nodes: A, B, C, D
+Edges: (A,B), (A,C), (B,D)
+Adjacency list:
+A: [B, C]
+B: [D]
+C: []
+D: []
+
+Implicit graph (given by rules):
+State: a word
+Rule: neighbors are words that differ by 1 letter
+Example: "cold" -> "cord" -> "card" -> "ward"
+```
+
 ```python
 # Word Ladder: minimum steps to transform begin_word -> end_word
 from collections import deque

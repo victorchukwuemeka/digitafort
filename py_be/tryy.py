@@ -50,13 +50,6 @@ except(ValueError, IndexError):
 #l = list(map(add, [2, 3], [4, 5]))
 #print(l)  
 
-
-
-ll = [2,3,4,6]
-for i in ll:
-    g = i +  ll[0]
-    print(g)
-
 #add()
 
 #lambda argument expression
@@ -71,3 +64,57 @@ for i in ll:
 
 
 #print(f"Bitwise AND ({val1} & {val2}): {val1 & val2}")
+
+
+
+
+"""
+
+students =  [("alice",92), ("bob",85), ("charlie", 95)]
+sorted_by_grade  = sorted(students, key=lambda student:student[1], reverse=True)
+print(f"the student grade {sorted_by_grade}")
+
+emplys  = [
+    {"name": "John", 'age':35},
+    {"name" : 'alice ', 'age': 30},
+    {"name ": 'dave', 'age':14}
+]
+
+
+print(sorted(emplys, key=lambda empl : empl['age']))
+
+
+
+
+numbs = [2,4,6,8,10]
+
+s_nubms = map(lambda x:x**2 , numbs)
+
+print(list(s_nubms))
+
+
+
+
+numbs = [1,2,3,4,5,6,7,8,9,10]
+filter(lambda x:x % 2 == 0, numbs)
+
+
+"""
+
+
+
+with open("file_back_end.txt", 'w') as file:
+    file.write("hello word. \n")
+    file.write(" a new file \n")
+    file.write("nothing much \n")
+print("done")
+
+with open("file_back_end.txt","r") as file :
+    content = file.readlines()
+    for i in content:
+        print(i)
+print("done reading")
+
+with open("file_back_end.txt","a") as file:
+    file.write("whatever man . \n")
+print("append is working ")

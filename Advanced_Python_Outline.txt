@@ -1,0 +1,19 @@
+Advanced Python
+1. Concurrency and parallelism
+2. Async I/O (async/await)
+3. Decorators and generators
+4. Object-oriented programming (advanced)
+5. Functional programming
+6. Type hints and static typing
+7. Testing (pytest, unittest)
+8. Packaging and project structure
+9. Web automation with Selenium
+10. Data structures and algorithms
+11. Web scraping with Beautiful Soup
+12. NumPy and pandas
+13. Sockets
+14. HTTP and RPC protocols
+15. APIs and requests
+16. Logging and debugging
+17. Performance profiling and optimization
+18. GitHub and GitHub workflow (continuous integration)

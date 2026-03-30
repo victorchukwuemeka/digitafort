@@ -1,0 +1,16 @@
+Beginners Python
+1. Introduction and setup
+2. Variables, data types, and structures
+3. Operators and expressions
+4. Control flow
+5. Logical operations
+6. Conditional statements
+7. Functions
+8. Modules and imports
+9. File handling
+10. Error handling (try/except)
+11. Working with dates and time
+12. Basic data structures practice (lists, tuples, sets, dicts)
+13. Databases (intro)
+14. Tkinter (GUI basics)
+15. GitHub (basics)

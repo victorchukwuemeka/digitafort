@@ -290,7 +290,7 @@ for message in result:
     print(message)
 ```
 
-> 💡 This pipeline processes one line at a time through all steps. Even a 10GB log file uses almost no memory.
+>  This pipeline processes one line at a time through all steps. Even a 10GB log file uses almost no memory.
 
 ### Using itertools for More Power
 
@@ -324,6 +324,17 @@ print(below_10)   # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 ## Module 5: Advanced Generators — send(), throw(), close()
 
 Generators are not just one-way. You can communicate back into a running generator using `send()`, inject exceptions with `throw()`, and shut it down with `close()`.
+
+### Better Note — How Advanced Generators Actually Work
+
+Think of a generator as a **paused function frame**. Each `yield` is a checkpoint that both sends a value **out** and can receive a value **back in**. That leads to a few important rules:
+
+- You must **prime** the generator (call `next(gen)` or `gen.send(None)`) before you can send real values.
+- `value = yield something` means: **send `something` out now, then later assign the next sent-in value to `value`**.
+- `throw()` raises an exception **inside** the generator at the current pause point, so it behaves like an internal error you can catch.
+- `close()` triggers `GeneratorExit` and runs any `finally` blocks, which is where cleanup should live.
+
+This mental model makes `send()`, `throw()`, and `close()` feel less magical and more like controlled pause/resume with a two‑way channel.
 
 ### send() — Passing Values INTO a Generator
 
@@ -487,7 +498,28 @@ for i, reading in enumerate(stream):
 
 A decorator is a function that **wraps another function** to add extra behaviour before or after it runs — without changing the original function's code.
 
-> 💡 **Think of a decorator like a sandwich wrapper.** The filling (your function) stays the same. The wrapper just adds something around it — maybe logging, timing, or authentication. You can change the wrapper without touching the filling.
+>  **Think of a decorator like a sandwich wrapper.** The filling (your function) stays the same. The wrapper just adds something around it — maybe logging, timing, or authentication. You can change the wrapper without touching the filling.
+
+### Better Note — Mental Model
+
+A decorator is just **function reassignment** done neatly. This:
+
+```python
+@decorator
+def foo():
+    pass
+```
+
+is exactly the same as:
+
+```python
+def foo():
+    pass
+
+foo = decorator(foo)
+```
+
+So the decorator **replaces** the original name with a wrapped function. That is why `functools.wraps` is important — it copies the original metadata to the wrapper so tools, docs, and debugging still show the real function name.
 
 ### The Core Idea
 
@@ -1290,5 +1322,5 @@ print(add.count)   # 2
 
 ---
 
-> ✅ **You now understand two of Python's most powerful features.**
+>  **You now understand two of Python's most powerful features.**
 > Generators let you work with data lazily and efficiently at any scale. Decorators let you add reusable behaviour to any function cleanly and elegantly. Together, they make your Python code more professional, readable, and production-ready.

@@ -1,38 +1,40 @@
-# Practical: Build a Simple Library System
+# Practical: Inventory + Checkout Engine
 
 ## Goal
-Practice class design, encapsulation, and composition by modeling a small library.
+Design a small but realistic system using composition, validation, and clean class APIs.
 
 ## Requirements
 Implement the following classes:
 
-### 1. `Book`
-- Attributes: `title`, `author`, `isbn`
-- `__repr__` should show title and isbn
+### 1. `Product`
+- Attributes: `sku`, `name`, `price`
+- Validation: `price` must be >= 0
+- `__repr__` should show sku + price
 
-### 2. `Member`
-- Attributes: `name`, `member_id`
-- Tracks borrowed books (list of `Book` objects)
-- Method: `borrow(book)` adds a book
-- Method: `return_book(isbn)` removes a book by isbn
+### 2. `Inventory`
+- Holds stock as a mapping of `sku -> quantity`
+- Methods: `add_stock(sku, qty)`, `remove_stock(sku, qty)`, `available(sku)`
+- Raise `ValueError` if removing more than available
 
-### 3. `Library`
-- Holds a catalog (list of `Book`)
-- Holds members (list of `Member`)
-- Method: `add_book(book)`
-- Method: `register(member)`
-- Method: `lend(isbn, member_id)`
-    - Finds the book and member
-    - Removes the book from catalog
-    - Adds the book to member
-- Method: `accept_return(isbn, member_id)`
-    - Removes the book from member
-    - Adds the book back to catalog
+### 3. `CartItem`
+- Attributes: `product`, `qty`
+- Validation: qty >= 1
+
+### 4. `Cart`
+- Holds `CartItem` objects
+- Methods: `add(product, qty)`, `remove(sku)`, `total()`
+
+### 5. `Checkout`
+- Takes `Inventory` + `Cart`
+- Method: `place_order()`
+    - Verifies stock
+    - Deducts stock
+    - Returns a receipt dict: `{"items": [...], "total": ...}`
 
 ## Stretch Goals
-1. Use `@property` to prevent setting empty titles.
-2. Add a `@classmethod` to `Book` that builds from a dict.
-3. Add a `@dataclass` version of `Book` and compare with manual class.
+1. Add `discounts` with a strategy object.
+2. Use `@dataclass` for `Product` and `CartItem`.
+3. Add `__eq__` to compare products by `sku`.
 
 ## Suggested File
-Create a file named `library.py` and implement the classes. Then run a few manual tests at the bottom of the file.
+Create a file named `inventory.py` and implement the classes. Add a short manual test at the bottom.

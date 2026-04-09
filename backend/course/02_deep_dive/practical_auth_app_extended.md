@@ -647,4 +647,4 @@ Congratulations! You've successfully built a basic Django blog application with 
 *   Superuser-only access for sensitive actions like deleting posts.
 *   A global middleware to enforce site-wide login requirements.
 
-This project serves as a strong foundation for understanding how security and access control are fundamental aspects of system design. In Module 2, we'll abstract away from the code slightly and discuss broader architectural patterns.
+This project serves as a strong foundation for understanding how security and access control are fundamental aspects of system design. In Module 2 (System Design & Architecture), we'll abstract away from the code slightly and discuss broader architectural patterns.

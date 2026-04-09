@@ -11,27 +11,47 @@ This course is designed to provide you with a comprehensive understanding of sys
 The course is divided into several modules, each focusing on a key aspect of system design and Django development.
 
 *   **Module 0: Python Classes (OOP)**
-    *   **Lesson 1:** Class Basics
-    *   **Lesson 2:** `__init__` and Attributes
-    *   **Lesson 3:** Inheritance and Composition
-    *   **Lesson 4:** Encapsulation, Properties, and Dunder Methods
-    *   **Lesson 5:** Classmethods, Staticmethods, and Dataclasses
-    *   **Practical:** Build a Simple Library System
+    *   **Lesson 1:** Class Basics and Object Lifecycle
+    *   **Lesson 2:** `__init__`, Attributes, and State
+    *   **Lesson 3:** Inheritance, `super()`, and MRO
+    *   **Lesson 4:** Encapsulation and Properties
+    *   **Lesson 5:** Dunder Methods and Object Behavior
+    *   **Lesson 6:** Composition and Delegation
+    *   **Lesson 7:** Classmethods, Staticmethods, and Factory Patterns
+    *   **Lesson 8:** Dataclasses and Slots
+    *   **Lesson 9:** Type Hints and Protocols
+    *   **Lesson 10:** Designing Clean Class APIs
+    *   **Practical:** Inventory + Checkout Engine
 
 *   **Module 1: Foundations: Web, Django & Authorization**
-    *   **Lesson 1:** Introduction to System Design
-    *   **Lesson 2:** Web Fundamentals & Django Core
-    *   **Lesson 3:** Authentication & Authorization in Depth
-    *   **Lesson 4:** Global Access Control with Middleware
-    *   **Lesson 5:** JWT Authentication (JSON Web Tokens)
+    *   **Lesson 1:** Web Fundamentals & Django Core
+    *   **Lesson 2:** Project Structure & Apps
+    *   **Lesson 3:** Models & Databases
+    *   **Lesson 4:** Django Admin
+    *   **Lesson 5:** Views, URLs & Templates
+    *   **Lesson 6:** Forms & Validation
+    *   **Lesson 7:** Class-Based Views
+    *   **Lesson 8:** Authentication & Authorization in Depth
+    *   **Lesson 9:** Middleware (Intro + Practical)
+    *   **Lesson 10:** Custom User Models
+    *   **Lesson 11:** Static & Media Files
+    *   **Lesson 12:** DRF & Serializers
+    *   **Lesson 13:** Viewsets & Routers
+    *   **Lesson 14:** JWT Authentication (JSON Web Tokens)
+    *   **Lesson 15:** Filtering, Searching & Pagination
+    *   **Lesson 16:** Automated Testing
+    *   **Lesson 17:** Queryset Optimization
+    *   **Lesson 18:** Caching Strategies
+    *   **Lesson 19:** Security Hardening
     *   **Practical 1:** Build and Secure a Basic Django Authorization App
     *   **Practical 2:** Implementing JWT Auth with Django REST Framework
 
-*   **Module 2: Architectural Choices & Patterns**
-    *   **Lesson 1:** Monolithic Architecture Deep Dive
-    *   **Lesson 2:** Microservices Architecture Deep Dive
-    *   **Lesson 3:** Exploring Other Architectural Styles (Brief Overview)
-    *   **Lesson 4:** Making Architectural Decisions
+*   **Module 2: System Design & Architecture**
+    *   **Lesson 1:** Introduction to System Design
+    *   **Lesson 2:** Monolithic Architecture Deep Dive
+    *   **Lesson 3:** Microservices Architecture Deep Dive
+    *   **Lesson 4:** Exploring Other Architectural Styles (Brief Overview)
+    *   **Lesson 5:** Making Architectural Decisions
     *   **Practical:** Architectural Design Case Study (Non-Coding)
 
 ---

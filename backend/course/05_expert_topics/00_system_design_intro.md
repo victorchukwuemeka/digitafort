@@ -1,4 +1,4 @@
-# Module 1: Foundations: Web, Django & Authorization
+# Module 2: System Design & Architecture
 
 ## Lesson 1: Introduction to System Design
 

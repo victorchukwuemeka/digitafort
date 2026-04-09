@@ -1,12 +1,13 @@
-# Lesson 2: `__init__` and Attributes
+# Lesson 2: `__init__`, Attributes, and State
 
 ## Goal
-Learn how to store state on objects using instance attributes.
+Model object state using attributes and understand class vs instance variables.
 
 ## Key Concepts
-- `__init__` runs when a new object is created
+- `__init__` runs on creation
 - Instance attributes live on `self`
-- Class vs instance variables
+- Class attributes are shared
+- Mutability pitfalls with class attributes
 
 ## Example
 ```python
@@ -21,10 +22,13 @@ u = User("Ada", "ada@example.com")
 print(u.name, u.role)
 ```
 
-## Notes
-- Use class variables for shared defaults.
-- Use instance attributes for per-object state.
+## Common Pitfall
+```python
+class Bad:
+    tags = []  # shared by all instances!
+```
 
 ## Quick Exercises
 1. Add an `age` attribute to the `User` class.
 2. Make a `User` with a custom `role` and print both values.
+3. Fix a shared-list bug by moving the list into `__init__`.

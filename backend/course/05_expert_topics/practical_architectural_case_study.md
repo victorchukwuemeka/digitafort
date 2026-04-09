@@ -1,4 +1,4 @@
-# Module 2: Architectural Choices & Patterns
+# Module 2: System Design & Architecture
 
 ## Practical: Architectural Design Case Study (Non-Coding)
 

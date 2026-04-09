@@ -10,6 +10,14 @@ This course is designed to provide you with a comprehensive understanding of sys
 
 The course is divided into several modules, each focusing on a key aspect of system design and Django development.
 
+*   **Module 0: Python Classes (OOP)**
+    *   **Lesson 1:** Class Basics
+    *   **Lesson 2:** `__init__` and Attributes
+    *   **Lesson 3:** Inheritance and Composition
+    *   **Lesson 4:** Encapsulation, Properties, and Dunder Methods
+    *   **Lesson 5:** Classmethods, Staticmethods, and Dataclasses
+    *   **Practical:** Build a Simple Library System
+
 *   **Module 1: Foundations: Web, Django & Authorization**
     *   **Lesson 1:** Introduction to System Design
     *   **Lesson 2:** Web Fundamentals & Django Core

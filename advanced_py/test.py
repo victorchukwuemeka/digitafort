@@ -267,6 +267,7 @@ def bring_data_at_once(n):
 #making their is no spaces 
 
 #filter error lines 
+"""
 
 def file_loading(filename):
     with open(filename) as f:
@@ -302,7 +303,70 @@ result_message = uppercase(message)
 for r in result_message:
     print(r)
 
+"""
 
 
 
+
+"""
+creating the decorator
+"""
+
+"""
+def decorator(func):
+    def wrapper(*args, **kwargs):
+        print("start")
+        result = func(*args, **kwargs)
+        print("stop ")
+        return result
+    return wrapper
+
+
+
+@decorator
+def say_hello():
+    print('hello')
+
+def hello():
+    print('Good')
+
+t  =  decorator(hello)
+t()
+
+"""
+
+
+
+
+
+"""
+from functools import wraps
+
+def m_decorators(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper
+
+@m_decorators
+def add(a,b):
+    return a + b
+    
+print(add.__name__)
+print(add.__doc__)
+"""
+
+import time 
+from functools import wraps
+
+def timer(func):
+    """ measure the time a func takes"""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        result = func(*args, **kwargs)
+        stop = time.perf_counter()
+        print(f"{func.__name__} took {stop - start:.4f} seconds")
+        return result
+    return wrapper
 

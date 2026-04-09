@@ -11,17 +11,8 @@ This course is designed to provide you with a comprehensive understanding of sys
 The course is divided into several modules, each focusing on a key aspect of system design and Django development.
 
 *   **Module 0: Python Classes (OOP)**
-    *   **Lesson 1:** Class Basics and Object Lifecycle
-    *   **Lesson 2:** `__init__`, Attributes, and State
-    *   **Lesson 3:** Inheritance, `super()`, and MRO
-    *   **Lesson 4:** Encapsulation and Properties
-    *   **Lesson 5:** Dunder Methods and Object Behavior
-    *   **Lesson 6:** Composition and Delegation
-    *   **Lesson 7:** Classmethods, Staticmethods, and Factory Patterns
-    *   **Lesson 8:** Dataclasses and Slots
-    *   **Lesson 9:** Type Hints and Protocols
-    *   **Lesson 10:** Designing Clean Class APIs
-    *   **Practical:** Inventory + Checkout Engine
+    *   **Guide:** `00_python_classes/README.md` (single deep guide)
+    *   **Practical Starter:** `00_python_classes/inventory.py`
 
 *   **Module 1: Foundations: Web, Django & Authorization**
     *   **Lesson 1:** Web Fundamentals & Django Core

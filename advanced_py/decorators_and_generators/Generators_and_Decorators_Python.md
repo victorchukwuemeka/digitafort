@@ -490,213 +490,135 @@ for i, reading in enumerate(stream):
 
 ---
 
-# PART 2 — DECORATORS
+# Python Decorators
+
+A decorator is a function that **wraps another function** to extend its behaviour — without modifying the original function's code.
 
 ---
 
-## Module 7: What is a Decorator?
+## The Core Idea
 
-A decorator is a function that **wraps another function** to add extra behaviour before or after it runs — without changing the original function's code.
-
->  **Think of a decorator like a sandwich wrapper.** The filling (your function) stays the same. The wrapper just adds something around it — maybe logging, timing, or authentication. You can change the wrapper without touching the filling.
-
-### Better Note — Mental Model
-
-A decorator is just **function reassignment** done neatly. This:
+`@decorator` syntax is just shorthand. These two are completely identical:
 
 ```python
-@decorator
+@my_decorator
 def foo():
     pass
 ```
 
-is exactly the same as:
-
 ```python
 def foo():
     pass
-
-foo = decorator(foo)
+foo = my_decorator(foo)  # foo is replaced with the wrapped version
 ```
 
-So the decorator **replaces** the original name with a wrapped function. That is why `functools.wraps` is important — it copies the original metadata to the wrapper so tools, docs, and debugging still show the real function name.
-
-### The Core Idea
-
-```python
-# Without a decorator — you have to manually wrap every function
-def my_function():
-    print("Hello!")
-
-# Manually adding behaviour before and after
-print("Before")
-my_function()
-print("After")
-
-
-# With a decorator — the wrapping is automatic and reusable
-@my_decorator
-def my_function():
-    print("Hello!")
-
-my_function()   # automatically runs "Before", "Hello!", "After"
-```
-
-### Functions Are First-Class Objects
-
-To understand decorators, you need to know that in Python, functions are objects. They can be stored in variables, passed as arguments, and returned from other functions:
-
-```python
-def greet():
-    return "Hello!"
-
-# Assign function to a variable
-say_hi = greet
-print(say_hi())   # Hello!
-
-# Pass function as argument
-def run_twice(func):
-    func()
-    func()
-
-run_twice(greet)   # Hello! Hello!
-
-# Return a function from a function
-def make_greeter(name):
-    def greeter():
-        return f"Hello, {name}!"
-    return greeter
-
-hello_alice = make_greeter("Alice")
-print(hello_alice())   # Hello, Alice!
-```
+Python takes your function, passes it into the decorator, and reassigns the name to whatever the decorator returns. That's it. There's no magic — just a function receiving another function and returning a new one.
 
 ---
 
-## Module 8: Writing Your First Decorator
-
-A decorator is just a function that takes a function and returns a new function.
-
-### The Basic Structure
-
-```python
-def my_decorator(func):
-    def wrapper(*args, **kwargs):
-        # Code that runs BEFORE the original function
-        print("Before the function runs")
-
-        result = func(*args, **kwargs)   # Call the original function
-
-        # Code that runs AFTER the original function
-        print("After the function runs")
-
-        return result   # Return the original result
-    return wrapper
-```
-
-### Applying a Decorator
-
-```python
-def my_decorator(func):
-    def wrapper(*args, **kwargs):
-        print("Before")
-        result = func(*args, **kwargs)
-        print("After")
-        return result
-    return wrapper
-
-
-# Method 1: Using @ syntax (preferred)
-@my_decorator
-def say_hello():
-    print("Hello!")
-
-say_hello()
-# Output:
-# Before
-# Hello!
-# After
-
-
-# Method 2: Manual wrapping (same result, less elegant)
-def say_hello():
-    print("Hello!")
-
-say_hello = my_decorator(say_hello)
-say_hello()
-```
-
-### The functools.wraps Fix
-
-Without `functools.wraps`, your decorated function loses its name and docstring. Always use it:
+## The Template (use this every time)
 
 ```python
 from functools import wraps
 
-def my_decorator(func):
-    @wraps(func)          # This preserves the original function's metadata
+def my_decorator(func):           # (1) receives the original function as an argument
+    @wraps(func)                  # (2) copies name, docstring, etc. onto wrapper
+    def wrapper(*args, **kwargs): # (3) *args/**kwargs means it works with ANY function signature
+        # code that runs BEFORE
+        result = func(*args, **kwargs)  # (4) actually calls the original function
+        # code that runs AFTER
+        return result             # (5) must return the result or the caller gets None
+    return wrapper                # (6) returns the wrapper — NOT wrapper() — just the function object
+```
+
+**Three rules you cannot skip:**
+
+| Rule | Why |
+|---|---|
+| `@wraps(func)` | Without it, your function loses its name and docstring. Debugging becomes painful. |
+| `*args, **kwargs` | Makes the wrapper accept any function signature — not just specific ones. |
+| `return result` | If you forget this, every decorated function silently returns `None`. |
+
+---
+
+## Basic Example
+
+```python
+from functools import wraps
+
+def shout(func):
+    @wraps(func)
     def wrapper(*args, **kwargs):
-        return func(*args, **kwargs)
+        print(">>> Starting")          # runs first, before greet() does anything
+        result = func(*args, **kwargs) # greet() runs here — prints "Hello, Alice!"
+        print(">>> Done")              # runs after greet() finishes
+        return result
     return wrapper
 
 
-@my_decorator
-def add(a, b):
-    """Adds two numbers together"""
-    return a + b
+@shout                  # greet is now: greet = shout(greet)
+def greet(name):
+    print(f"Hello, {name}!")
 
 
-print(add.__name__)   # add       (without wraps: "wrapper")
-print(add.__doc__)    # Adds two numbers together   (without wraps: None)
+greet("Alice")
+# >>> Starting
+# Hello, Alice!
+# >>> Done
 ```
 
-### Practical Example — Timing Decorator
+> Notice that `greet("Alice")` is now actually calling `wrapper("Alice")` — but because of `@wraps`, it still looks and behaves like `greet` from the outside.
+
+---
+
+## Practical Example — Timer
+
+Measures how long a function takes to run.
 
 ```python
 import time
 from functools import wraps
 
 def timer(func):
-    """Measures how long a function takes to run"""
     @wraps(func)
     def wrapper(*args, **kwargs):
-        start = time.perf_counter()
-        result = func(*args, **kwargs)
-        end = time.perf_counter()
-        print(f"{func.__name__} took {end - start:.4f} seconds")
+        start = time.perf_counter()        # snapshot the time before the function runs
+        result = func(*args, **kwargs)     # run the actual function
+        end = time.perf_counter()          # snapshot the time after it finishes
+        print(f"{func.__name__} took {end - start:.4f}s")  # func.__name__ gives "process_data", not "wrapper"
         return result
     return wrapper
 
 
 @timer
-def slow_function():
-    time.sleep(1.5)
-    return "Done"
-
-@timer
-def fast_function(n):
-    return sum(range(n))
+def process_data(n):
+    return sum(range(n))   # a heavy computation — good for testing
 
 
-slow_function()         # slow_function took 1.5001 seconds
-fast_function(1000000)  # fast_function took 0.0523 seconds
+process_data(1_000_000)
+# process_data took 0.0521s
 ```
 
-### Practical Example — Logger Decorator
+> `time.perf_counter()` is used instead of `time.time()` because it gives a higher-resolution measurement — better for short operations. The `:.4f` in the f-string formats the number to 4 decimal places.
+
+---
+
+## Practical Example — Logger
+
+Logs every call with its arguments and return value. Useful during development to trace what's happening without scattering print statements everywhere.
 
 ```python
 import logging
 from functools import wraps
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO)  # sets up logging to print INFO-level messages to the console
 
 def log_calls(func):
-    """Logs every time a function is called with its arguments"""
     @wraps(func)
     def wrapper(*args, **kwargs):
-        logging.info(f"Calling {func.__name__} with args={args}, kwargs={kwargs}")
+        logging.info(f"Calling {func.__name__} | args={args} kwargs={kwargs}")  # logged BEFORE the call
         result = func(*args, **kwargs)
-        logging.info(f"{func.__name__} returned {result}")
+        logging.info(f"{func.__name__} returned {result}")                       # logged AFTER the call
         return result
     return wrapper
 
@@ -707,121 +629,90 @@ def divide(a, b):
 
 
 divide(10, 2)
-# INFO: Calling divide with args=(10, 2), kwargs={}
+# INFO: Calling divide | args=(10, 2) kwargs={}
 # INFO: divide returned 5.0
 ```
 
+> In production you'd log to a file instead of the console, but the decorator itself stays exactly the same — you'd only change the `logging.basicConfig` setup at the top.
+
 ---
 
-## Module 9: Decorators with Arguments
+## Decorators with Arguments
 
-Sometimes you want to pass configuration into your decorator. To do this, you wrap the decorator inside another function — creating a **decorator factory**.
+When you need to pass configuration into your decorator, you add **one more outer function** — making it a decorator factory.
 
-### The Pattern
-
-```python
-# Without arguments:    @decorator
-# With arguments:       @decorator(arg1, arg2)
-
-def decorator_factory(arg1, arg2):
-    def decorator(func):
-        from functools import wraps
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            # use arg1 and arg2 here
-            return func(*args, **kwargs)
-        return wrapper
-    return decorator
+```
+@decorator            ← no arguments: just a function
+@decorator(arg)       ← with arguments: a function that RETURNS a decorator
 ```
 
-### Example — Retry Decorator
+Why the extra layer? When you write `@retry(max_attempts=3)`, Python calls `retry(max_attempts=3)` first, which returns a decorator. That decorator then wraps your function. So you end up with three nested functions instead of two.
+
+### Pattern
+
+```python
+def decorator_factory(arg1, arg2):   # outer: called first, receives your config
+    def decorator(func):             # middle: receives the function to wrap
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            # arg1 and arg2 are available here through closure
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator                 # outer returns the decorator, not the wrapper
+```
+
+### Example — Retry on Failure
 
 ```python
 import time
 from functools import wraps
 
-def retry(max_attempts=3, delay=1.0):
-    """Retry a function if it raises an exception"""
-    def decorator(func):
+def retry(max_attempts=3, delay=1.0):     # (1) outer — takes the config
+    def decorator(func):                  # (2) middle — takes the actual function
         @wraps(func)
         def wrapper(*args, **kwargs):
             last_error = None
-            for attempt in range(1, max_attempts + 1):
+            for attempt in range(1, max_attempts + 1):   # try up to max_attempts times
                 try:
-                    return func(*args, **kwargs)
+                    return func(*args, **kwargs)          # success — return immediately
                 except Exception as e:
                     last_error = e
                     print(f"Attempt {attempt}/{max_attempts} failed: {e}")
                     if attempt < max_attempts:
-                        time.sleep(delay)
-            raise last_error
+                        time.sleep(delay)                 # wait before trying again
+            raise last_error                             # all attempts failed — re-raise last error
         return wrapper
     return decorator
 
 
-@retry(max_attempts=3, delay=0.5)
-def unstable_api_call():
+@retry(max_attempts=3, delay=0.5)   # retry() runs first, returns decorator, which wraps call_api
+def call_api():
     import random
-    if random.random() < 0.7:   # fails 70% of the time
-        raise ConnectionError("API is down")
-    return "Success!"
+    if random.random() < 0.7:       # simulates a flaky API that fails 70% of the time
+        raise ConnectionError("Server down")
+    return "OK"
 
 
-result = unstable_api_call()
-print(result)
+result = call_api()
 ```
 
-### Example — Rate Limiter Decorator
+> `last_error` is stored outside the try/except block so we can re-raise it after all attempts are exhausted. Without this, the variable `e` goes out of scope when the loop ends and you'd get a `NameError`.
 
-```python
-import time
-from functools import wraps
-
-def rate_limit(calls_per_second=1):
-    """Limit how often a function can be called"""
-    min_interval = 1.0 / calls_per_second
-    last_called = [0.0]   # use list to allow mutation in closure
-
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            elapsed = time.time() - last_called[0]
-            wait = min_interval - elapsed
-            if wait > 0:
-                time.sleep(wait)
-            result = func(*args, **kwargs)
-            last_called[0] = time.time()
-            return result
-        return wrapper
-    return decorator
-
-
-@rate_limit(calls_per_second=2)   # max 2 calls per second
-def fetch_data(url):
-    print(f"Fetching: {url}")
-    return "data"
-
-
-for url in ['url1', 'url2', 'url3', 'url4']:
-    fetch_data(url)   # automatically throttled to 2 per second
-```
-
-### Example — Cache / Memoize Decorator
+### Example — Memoize (Cache Results)
 
 ```python
 from functools import wraps
 
 def memoize(func):
-    """Cache function results to avoid repeated expensive computations"""
-    cache = {}
+    cache = {}          # created once when the decorator is applied — persists across all calls
 
     @wraps(func)
-    def wrapper(*args):
+    def wrapper(*args): # only *args here — kwargs can't be dict keys (they're not hashable)
         if args not in cache:
-            cache[args] = func(*args)
-        return cache[args]
+            cache[args] = func(*args)   # compute and store the result on first call
+        return cache[args]              # return the stored result on every call after
 
-    wrapper.cache = cache   # expose cache for inspection
+    wrapper.cache = cache   # attach cache to the function so you can inspect it: fibonacci.cache
     return wrapper
 
 
@@ -829,104 +720,36 @@ def memoize(func):
 def fibonacci(n):
     if n <= 1:
         return n
-    return fibonacci(n - 1) + fibonacci(n - 2)
+    return fibonacci(n - 1) + fibonacci(n - 2)  # recursive calls also hit the cache automatically
 
 
-print(fibonacci(50))   # instant — without memoize this would take forever!
-print(fibonacci.cache) # see what was cached
-
-# Python also has a built-in version:
-from functools import lru_cache
-
-@lru_cache(maxsize=128)
-def fibonacci(n):
-    if n <= 1:
-        return n
-    return fibonacci(n - 1) + fibonacci(n - 2)
+print(fibonacci(50))   # instant — without memoize, this makes ~2^50 recursive calls
 ```
+
+> The `cache = {}` dict is created once when the decorator is applied — not on every function call. This is a **closure**: `wrapper` keeps a reference to `cache` even after `memoize` has finished running. That's how the cache survives between calls.
+
+> Python ships with `@functools.lru_cache` which does the same thing and is production-ready. Prefer that in real projects.
 
 ---
 
-## Module 10: Class-Based Decorators
+## Stacking Decorators
 
-You can also create decorators using classes by implementing the `__call__` method. This is useful when your decorator needs to maintain state.
-
-### Basic Class Decorator
+You can apply multiple decorators to one function.
 
 ```python
-from functools import wraps
-
-class Timer:
-    """A class-based decorator for timing functions"""
-
-    def __init__(self, func):
-        wraps(func)(self)
-        self.func = func
-        self.total_time = 0
-        self.call_count = 0
-
-    def __call__(self, *args, **kwargs):
-        import time
-        start = time.perf_counter()
-        result = self.func(*args, **kwargs)
-        elapsed = time.perf_counter() - start
-
-        self.total_time += elapsed
-        self.call_count += 1
-
-        print(f"{self.func.__name__} took {elapsed:.4f}s "
-              f"(total: {self.total_time:.4f}s, calls: {self.call_count})")
-        return result
-
-
-@Timer
-def compute(n):
-    return sum(range(n))
-
-
-compute(1000000)   # compute took 0.0521s (total: 0.0521s, calls: 1)
-compute(2000000)   # compute took 0.1043s (total: 0.1564s, calls: 2)
-
-print(compute.call_count)   # 2
-print(compute.total_time)   # 0.1564...
+@decorator_a
+@decorator_b
+@decorator_c
+def my_func():
+    pass
 ```
 
-### Class Decorator with Arguments
+**Application order:** bottom-up — `c` wraps `my_func` first, then `b` wraps that, then `a` wraps that.  
+**Execution order:** top-down — when called, `a`'s code runs first, then `b`'s, then `c`'s, then the original function.
 
-```python
-class retry:
-    def __init__(self, max_attempts=3, exceptions=(Exception,)):
-        self.max_attempts = max_attempts
-        self.exceptions = exceptions
+Think of it like layers of clothing: you put on a shirt first (`c`), then a jumper (`b`), then a jacket (`a`). When someone looks at you, they see the jacket first.
 
-    def __call__(self, func):
-        from functools import wraps
-
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            for attempt in range(self.max_attempts):
-                try:
-                    return func(*args, **kwargs)
-                except self.exceptions as e:
-                    if attempt == self.max_attempts - 1:
-                        raise
-                    print(f"Retrying... ({attempt + 1}/{self.max_attempts})")
-        return wrapper
-
-
-@retry(max_attempts=4, exceptions=(ConnectionError, TimeoutError))
-def connect_to_server():
-    raise ConnectionError("Server unreachable")
-
-
-connect_to_server()
-```
-
----
-
-## Module 11: Stacking Decorators
-
-You can apply multiple decorators to a single function. They are applied **bottom-up** but execute **top-down**.
+### Example
 
 ```python
 from functools import wraps
@@ -934,351 +757,51 @@ from functools import wraps
 def bold(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        result = func(*args, **kwargs)
-        return f"<b>{result}</b>"
+        return f"<b>{func(*args, **kwargs)}</b>"   # wraps whatever the inner function returns in <b> tags
     return wrapper
 
 def italic(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        result = func(*args, **kwargs)
-        return f"<i>{result}</i>"
-    return wrapper
-
-def underline(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        result = func(*args, **kwargs)
-        return f"<u>{result}</u>"
+        return f"<i>{func(*args, **kwargs)}</i>"   # wraps whatever the inner function returns in <i> tags
     return wrapper
 
 
-@bold
-@italic
-@underline
+@bold           # applied second — outermost layer, runs first
+@italic         # applied first — innermost layer, runs second
 def greet(name):
-    return f"Hello, {name}!"
+    return f"Hello, {name}!"   # returns the raw string, italic wraps it, then bold wraps that
 
 
 print(greet("Alice"))
-# Output: <b><i><u>Hello, Alice!</u></i></b>
-
-# Execution order:
-# 1. underline wraps greet first (bottom decorator)
-# 2. italic wraps that
-# 3. bold wraps that (top decorator)
-# When called: bold runs → italic runs → underline runs → greet runs
+# <b><i>Hello, Alice!</i></b>
 ```
 
-### Real Example — Stacking Auth + Logging + Timing
-
-```python
-from functools import wraps
-import time
-
-def require_auth(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        user = kwargs.get('user')
-        if not user or not user.get('is_authenticated'):
-            raise PermissionError("Authentication required")
-        return func(*args, **kwargs)
-    return wrapper
-
-def log_call(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        print(f"LOG: {func.__name__} called")
-        result = func(*args, **kwargs)
-        print(f"LOG: {func.__name__} completed")
-        return result
-    return wrapper
-
-def timer(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        start = time.perf_counter()
-        result = func(*args, **kwargs)
-        print(f"TIME: {func.__name__} took {time.perf_counter() - start:.4f}s")
-        return result
-    return wrapper
-
-
-@timer
-@log_call
-@require_auth
-def get_user_data(user_id, user=None):
-    return {"id": user_id, "data": "secret"}
-
-
-# Usage:
-authenticated_user = {"name": "Alice", "is_authenticated": True}
-result = get_user_data(42, user=authenticated_user)
-print(result)
-```
+> Execution trace when `greet("Alice")` is called: `bold`'s wrapper runs → calls `italic`'s wrapper → calls original `greet` → returns `"Hello, Alice!"` → `italic` wraps it in `<i>` → `bold` wraps that in `<b>` → final result printed.
 
 ---
 
-## Module 12: Real-World Decorator Use Cases
-
-### Use Case 1 — Flask Route Protection (like JWT middleware)
-
-```python
-from functools import wraps
-from flask import request, jsonify
-import jwt
-
-def login_required(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        token = request.headers.get('Authorization', '').replace('Bearer ', '')
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-            request.current_user = payload
-        except jwt.InvalidTokenError:
-            return jsonify({'error': 'Unauthorized'}), 401
-        return func(*args, **kwargs)
-    return wrapper
-
-
-@app.route('/profile')
-@login_required
-def profile():
-    return jsonify(request.current_user)
-```
-
-### Use Case 2 — Input Validation Decorator
+## Quick Reference
 
 ```python
 from functools import wraps
 
-def validate_types(**expected_types):
-    """Validates argument types at runtime"""
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            import inspect
-            sig = inspect.signature(func)
-            bound = sig.bind(*args, **kwargs)
-            bound.apply_defaults()
-
-            for param_name, expected_type in expected_types.items():
-                if param_name in bound.arguments:
-                    value = bound.arguments[param_name]
-                    if not isinstance(value, expected_type):
-                        raise TypeError(
-                            f"Argument '{param_name}' must be {expected_type.__name__}, "
-                            f"got {type(value).__name__}"
-                        )
-            return func(*args, **kwargs)
-        return wrapper
-    return decorator
-
-
-@validate_types(name=str, age=int, score=float)
-def create_profile(name, age, score):
-    return {"name": name, "age": age, "score": score}
-
-
-create_profile("Alice", 30, 95.5)       # Works fine
-create_profile("Bob", "thirty", 80.0)  # TypeError: 'age' must be int, got str
-```
-
-### Use Case 3 — Singleton Pattern
-
-```python
-def singleton(cls):
-    """Ensure a class only has one instance"""
-    instances = {}
-
-    @wraps(cls)
-    def get_instance(*args, **kwargs):
-        if cls not in instances:
-            instances[cls] = cls(*args, **kwargs)
-        return instances[cls]
-
-    return get_instance
-
-
-@singleton
-class DatabaseConnection:
-    def __init__(self):
-        print("Connecting to database...")
-        self.connected = True
-
-
-db1 = DatabaseConnection()   # "Connecting to database..."
-db2 = DatabaseConnection()   # nothing printed
-print(db1 is db2)            # True — same instance!
-```
-
-### Use Case 4 — Django-Style Permission Decorator
-
-```python
-from functools import wraps
-
-def permission_required(*permissions):
-    """Require specific permissions to access a function"""
-    def decorator(func):
-        @wraps(func)
-        def wrapper(request, *args, **kwargs):
-            user_permissions = set(request.user.get('permissions', []))
-            required = set(permissions)
-
-            if not required.issubset(user_permissions):
-                missing = required - user_permissions
-                raise PermissionError(f"Missing permissions: {missing}")
-
-            return func(request, *args, **kwargs)
-        return wrapper
-    return decorator
-
-
-@permission_required('read_users', 'write_users')
-def admin_panel(request):
-    return "Admin panel content"
-```
-
----
-
-## Module 13: Practical Exercise
-
-Build a **task management system** that uses both generators and decorators together.
-
-### Requirements
-
-- A generator that yields tasks from a database one page at a time
-- A `@timer` decorator to track how long operations take
-- A `@retry` decorator for unreliable database calls
-- A `@log_calls` decorator that logs all function calls to a file
-- A `@validate_types` decorator to ensure correct argument types
-
-### Starter Code
-
-```python
-import time
-import logging
-from functools import wraps
-
-# ─── YOUR DECORATORS ────────────────────────────────────
-
-def timer(func):
-    # TODO: measure and print execution time
-    pass
-
-def retry(max_attempts=3):
-    # TODO: retry on failure
-    pass
-
-def log_calls(func):
-    # TODO: log function name, args, and result
-    pass
-
-
-# ─── YOUR GENERATORS ────────────────────────────────────
-
-def task_generator(tasks, page_size=5):
-    # TODO: yield tasks in pages
-    pass
-
-def overdue_tasks(tasks):
-    # TODO: yield only tasks past their deadline
-    pass
-
-def priority_pipeline(tasks, min_priority=5):
-    # TODO: filter by priority, sort, yield one at a time
-    pass
-
-
-# ─── TEST DATA ──────────────────────────────────────────
-
-tasks = [
-    {"id": i, "title": f"Task {i}", "priority": i % 10, "done": i % 3 == 0}
-    for i in range(1, 51)
-]
-
-
-# ─── MAIN ───────────────────────────────────────────────
-
-@timer
-@log_calls
-def process_tasks(tasks):
-    for task in priority_pipeline(tasks, min_priority=7):
-        print(f"Processing: {task['title']} (priority {task['priority']})")
-
-
-process_tasks(tasks)
-```
-
----
-
-## Quick Reference Cheat Sheet
-
-```python
-# ════════════════════════════════════════════════════════
-# GENERATORS
-# ════════════════════════════════════════════════════════
-
-# Basic generator function
-def my_gen():
-    yield 1
-    yield 2
-    yield 3
-
-for val in my_gen():
-    print(val)
-
-# Generator expression
-gen = (x * x for x in range(10) if x % 2 == 0)
-
-# Infinite generator
-def count_forever(start=0):
-    n = start
-    while True:
-        yield n
-        n += 1
-
-# Take N items from infinite generator
-import itertools
-first_5 = list(itertools.islice(count_forever(), 5))
-
-# send() — pass values into a generator
-def accumulator():
-    total = 0
-    while True:
-        value = yield total
-        total += value
-
-gen = accumulator()
-next(gen)        # prime it
-gen.send(10)     # 10
-gen.send(20)     # 30
-
-
-# ════════════════════════════════════════════════════════
-# DECORATORS
-# ════════════════════════════════════════════════════════
-
-from functools import wraps
-
-# Basic decorator
+# ── Basic decorator ───────────────────────────────────────────────────────────
 def my_decorator(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        print("Before")
         result = func(*args, **kwargs)
-        print("After")
         return result
     return wrapper
 
 @my_decorator
-def greet(name):
-    return f"Hello, {name}!"
+def my_func():
+    pass
 
 
-# Decorator with arguments
-def repeat(times=2):
-    def decorator(func):
+# ── Decorator with arguments (factory pattern) ────────────────────────────────
+def repeat(times=2):         # outer: takes config
+    def decorator(func):     # middle: takes function
         @wraps(func)
         def wrapper(*args, **kwargs):
             for _ in range(times):
@@ -1289,38 +812,28 @@ def repeat(times=2):
 
 @repeat(times=3)
 def say_hi():
-    print("Hi!")
+    print("Hi!")             # prints "Hi!" three times when called
 
 
-# Stacking decorators (bottom applies first)
-@decorator_a    # applies third, runs first
-@decorator_b    # applies second, runs second
-@decorator_c    # applies first, runs third
+# ── Stacking (bottom applies first, top runs first) ───────────────────────────
+@decorator_a    # runs first when the function is called
+@decorator_b    # runs second when the function is called
 def my_func():
     pass
-
-
-# Class-based decorator
-class CountCalls:
-    def __init__(self, func):
-        wraps(func)(self)
-        self.func = func
-        self.count = 0
-
-    def __call__(self, *args, **kwargs):
-        self.count += 1
-        return self.func(*args, **kwargs)
-
-@CountCalls
-def add(a, b):
-    return a + b
-
-add(1, 2)
-add(3, 4)
-print(add.count)   # 2
 ```
 
 ---
 
->  **You now understand two of Python's most powerful features.**
-> Generators let you work with data lazily and efficiently at any scale. Decorators let you add reusable behaviour to any function cleanly and elegantly. Together, they make your Python code more professional, readable, and production-ready.
+## What to Know, What to Skip
+
+| Topic | Priority |
+|---|---|
+| Basic decorator structure + `@wraps` | **Essential** |
+| Decorators with arguments (factory pattern) | **Important** |
+| Stacking decorators | **Good to know** |
+| Class-based decorators | Skip until you need stateful decorators |
+| Real-world frameworks (Flask, Django) | Pick up naturally when working in those frameworks |
+
+---
+
+*Python standard library decorators worth knowing: `@functools.lru_cache`, `@functools.cached_property`, `@staticmethod`, `@classmethod`, `@property`*

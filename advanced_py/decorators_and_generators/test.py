@@ -1,3 +1,5 @@
+
+"""
 import functools
 import time
 
@@ -20,7 +22,6 @@ def run_t(func):
     
 
 
-
 #print(run_t(greet))
 
 
@@ -33,4 +34,31 @@ def make_greeter(name):
 
 hello = make_greeter("alice")
 print(hello())
+
+"""
+"""
+import logging
+from functools import wraps
+
+logging.basicConfig(level=logging.INFO)
+
+def log_call(func):
+    #log the func call with arguments  
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        logging.info(f"calling {func.__name__} with args={args}, Kwargs={kwargs} ")
+        result = func(*args, **kwargs)
+        logging.info(f"calling{func.__name__} and {result}")
+        return result 
+    return wrapper
+
+
+@log_call
+def divide(a,b):
+    return a / b 
+
+
+divide(19,89)
+"""
+
 

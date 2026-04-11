@@ -62,3 +62,22 @@ divide(19,89)
 """
 
 
+
+
+from functools import wraps
+
+def shout(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(">>> Start the action")
+        result = func(*args, **kwargs)
+        print(">>> Stop the action")
+    return wrapper 
+
+
+
+@shout
+def greet(name):
+    print("Hello, {name}")
+    
+greet("Alice")

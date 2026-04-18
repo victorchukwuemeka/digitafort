@@ -117,6 +117,7 @@ class SinglyLinkedList:
         self.head = None
 
     def insert_head(self, value):
+        
         self.head = Node(value, self.head)
 
     def insert_tail(self, value):
@@ -172,6 +173,7 @@ print(sl.to_list())          # [5, 10, 30]
 print(sl.contains(10))       # True
 print(sl.contains(99))       # False
 ```
+
 
 ---
 

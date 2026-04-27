@@ -28,13 +28,13 @@ dequeue ←  [ 10 (front) ] → [ 20 ] → [ 30 ] → [ 40 (rear) ]  ← enqueue
 
 Every queue supports five fundamental operations. Understanding each one — including their time complexity — is essential.
 
-| Operation        | Description                                    | List (Python) | deque  |
-|------------------|------------------------------------------------|:-------------:|:------:|
-| `enqueue(x)`     | Add element x to the rear of the queue         | O(1)          | O(1)   |
-| `dequeue()`      | Remove and return the front element             | **O(n) !**    | O(1)   |
-| `peek()` / `front()` | View the front element without removing it | O(1)          | O(1)   |
-| `is_empty()`     | Return True if the queue has no elements        | O(1)          | O(1)   |
-| `size()`         | Return the number of elements in the queue      | O(1)          | O(1)   |
+| Operation            | Description                                | List (Python) | deque |
+| -------------------- | ------------------------------------------ | :-----------: | :---: |
+| `enqueue(x)`         | Add element x to the rear of the queue     |     O(1)      | O(1)  |
+| `dequeue()`          | Remove and return the front element        |  **O(n) !**   | O(1)  |
+| `peek()` / `front()` | View the front element without removing it |     O(1)      | O(1)  |
+| `is_empty()`         | Return True if the queue has no elements   |     O(1)      | O(1)  |
+| `size()`             | Return the number of elements in the queue |     O(1)      | O(1)  |
 
 > ⚠️ **WARNING:** Using a Python list for `dequeue()` calls `pop(0)` which is O(n) because every remaining element must shift one position to the left. For any real application, use `collections.deque` which gives O(1) for both ends.
 
@@ -198,12 +198,12 @@ except queue.Empty:
 
 ### Comparison: Which Method to Use?
 
-| Factor             | `list`          | `collections.deque`           | `queue.Queue`         |
-|--------------------|-----------------|-------------------------------|-----------------------|
-| `dequeue()` time   | O(n)            | O(1)                          | O(1)                  |
-| Thread-safe        | No              | No                            | Yes                   |
-| Ideal for          | Learning only   | General use / algorithms      | Multithreaded programs |
-| Import needed      | None (built-in) | `from collections import deque` | `import queue`      |
+| Factor           | `list`          | `collections.deque`             | `queue.Queue`          |
+| ---------------- | --------------- | ------------------------------- | ---------------------- |
+| `dequeue()` time | O(n)            | O(1)                            | O(1)                   |
+| Thread-safe      | No              | No                              | Yes                    |
+| Ideal for        | Learning only   | General use / algorithms        | Multithreaded programs |
+| Import needed    | None (built-in) | `from collections import deque` | `import queue`         |
 
 ---
 
@@ -399,14 +399,14 @@ BFS must process nodes in the order they were discovered — first-come, first-s
 
 **BFS traversal for the graph `A -> B, C | B -> D, E | C -> F`:**
 
-| Step | Current | Queue after step | Action                                    |
-|:----:|:-------:|------------------|-------------------------------------------|
-| 1    | A       | [B, C]           | Dequeue A. Enqueue neighbours B and C     |
-| 2    | B       | [C, D, E]        | Dequeue B. Enqueue neighbours D and E     |
-| 3    | C       | [D, E, F]        | Dequeue C. Enqueue neighbour F            |
-| 4    | D       | [E, F]           | Dequeue D. No unvisited neighbours        |
-| 5    | E       | [F]              | Dequeue E. No unvisited neighbours        |
-| 6    | F       | [] (empty)       | Dequeue F. Queue empty — BFS complete     |
+| Step | Current | Queue after step | Action                                |
+| :--: | :-----: | ---------------- | ------------------------------------- |
+|  1   |    A    | [B, C]           | Dequeue A. Enqueue neighbours B and C |
+|  2   |    B    | [C, D, E]        | Dequeue B. Enqueue neighbours D and E |
+|  3   |    C    | [D, E, F]        | Dequeue C. Enqueue neighbour F        |
+|  4   |    D    | [E, F]           | Dequeue D. No unvisited neighbours    |
+|  5   |    E    | [F]              | Dequeue E. No unvisited neighbours    |
+|  6   |    F    | [] (empty)       | Dequeue F. Queue empty — BFS complete |
 
 **Final BFS order:** `A -> B -> C -> D -> E -> F` (level 0, then level 1, then level 2)
 
@@ -504,16 +504,16 @@ print(bfs_shortest_path(graph, 'A', 'F'))  # Output: ['A', 'C', 'F']
 
 Queues appear throughout computer science and software engineering. Understanding where queues are used helps you recognise when to reach for them in your own solutions.
 
-| Domain            | Use Case                                                                              | Queue Type Used             |
-|-------------------|---------------------------------------------------------------------------------------|-----------------------------|
-| Graph Algorithms  | BFS traversal, shortest path in unweighted graphs, social network connection distance | Simple Queue (deque)        |
-| Operating Systems | CPU process scheduling (FCFS), I/O request buffering, print spooling                 | Simple Queue / Priority Queue |
-| Message Brokers   | Kafka, RabbitMQ, Amazon SQS — durable FIFO message passing between services          | Persistent Queue            |
-| Sliding Window    | Maximum/minimum of a sliding window (e.g. LeetCode 239), moving averages             | Deque (double-ended)        |
-| Cache Management  | LRU cache (Least Recently Used) — evicts the oldest entry when capacity is reached   | Deque + Hash Map            |
-| Networking        | Packet buffering in routers, TCP connection request queues, request rate limiting     | Circular Queue              |
-| Web Servers       | HTTP request handling, worker thread pools, async task queues (Celery, Bull)         | Thread-safe Queue           |
-| Pathfinding       | Dijkstra's algorithm (shortest path with weights), A* search for game AI             | Priority Queue (heapq)      |
+| Domain            | Use Case                                                                              | Queue Type Used               |
+| ----------------- | ------------------------------------------------------------------------------------- | ----------------------------- |
+| Graph Algorithms  | BFS traversal, shortest path in unweighted graphs, social network connection distance | Simple Queue (deque)          |
+| Operating Systems | CPU process scheduling (FCFS), I/O request buffering, print spooling                  | Simple Queue / Priority Queue |
+| Message Brokers   | Kafka, RabbitMQ, Amazon SQS — durable FIFO message passing between services           | Persistent Queue              |
+| Sliding Window    | Maximum/minimum of a sliding window (e.g. LeetCode 239), moving averages              | Deque (double-ended)          |
+| Cache Management  | LRU cache (Least Recently Used) — evicts the oldest entry when capacity is reached    | Deque + Hash Map              |
+| Networking        | Packet buffering in routers, TCP connection request queues, request rate limiting     | Circular Queue                |
+| Web Servers       | HTTP request handling, worker thread pools, async task queues (Celery, Bull)          | Thread-safe Queue             |
+| Pathfinding       | Dijkstra's algorithm (shortest path with weights), A\* search for game AI             | Priority Queue (heapq)        |
 
 ---
 
@@ -527,32 +527,18 @@ Work through these problems in order. Each one builds on the previous and reinfo
 2. Write a function that reverses the order of elements in a queue using only a stack as auxiliary storage.
 3. Given a queue, write a function to generate the first N binary numbers (1, 10, 11, 100...) using only a queue.
 
-### Intermediate
-
-4. **LeetCode 102**: Binary Tree Level Order Traversal — return node values grouped by level using BFS.
-5. **LeetCode 994**: Rotting Oranges — multi-source BFS using a queue to simulate simultaneous spread.
-6. **LeetCode 239**: Sliding Window Maximum — use a deque to solve in O(n) rather than O(n × k).
-
-### Advanced
-
-7. **LeetCode 23**: Merge K Sorted Lists — use a priority queue (min-heap) to efficiently merge K lists in O(N log K) time.
-8. Implement Dijkstra's shortest path algorithm on a weighted graph using a priority queue. Track visited nodes to avoid reprocessing.
-9. Design and implement an LRU Cache with O(1) get and put operations using a deque and a dictionary.
-
 ---
 
 ## 8. Summary
 
-| Queue Type        | Defining Characteristic                        | Best For                  | Python Tool         |
-|-------------------|------------------------------------------------|---------------------------|---------------------|
-| Simple Queue      | FIFO: first inserted = first removed           | BFS, task scheduling      | `collections.deque` |
-| Circular Queue    | Fixed size, rear wraps around to front         | Buffers, streaming        | Custom array class  |
-| Priority Queue    | Exits by priority, not arrival order           | Dijkstra, scheduling      | `heapq` module      |
-| Deque             | O(1) insert and remove at both ends            | Sliding window, LRU       | `collections.deque` |
-| Thread-safe Queue | Mutex-locked for concurrent access             | Multithreaded apps        | `queue.Queue`       |
+| Queue Type        | Defining Characteristic                | Best For             | Python Tool         |
+| ----------------- | -------------------------------------- | -------------------- | ------------------- |
+| Simple Queue      | FIFO: first inserted = first removed   | BFS, task scheduling | `collections.deque` |
+| Circular Queue    | Fixed size, rear wraps around to front | Buffers, streaming   | Custom array class  |
+| Priority Queue    | Exits by priority, not arrival order   | Dijkstra, scheduling | `heapq` module      |
+| Deque             | O(1) insert and remove at both ends    | Sliding window, LRU  | `collections.deque` |
+| Thread-safe Queue | Mutex-locked for concurrent access     | Multithreaded apps   | `queue.Queue`       |
 
 > ✅ **Golden rule:** always use `collections.deque` for queue implementations in Python. It gives O(1) on both ends, is part of the standard library, and is significantly faster than using a plain list.
 
 ---
-
-

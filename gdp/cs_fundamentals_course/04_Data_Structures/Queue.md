@@ -285,9 +285,28 @@ cq.enqueue(50)   # [50, 20, 30, 40]  rear wraps to 0 (circular!)
 
 A priority queue dequeues elements by priority rather than by arrival order. The element with the highest priority (lowest priority number in a min-heap) is always removed first, regardless of when it was inserted.
 
-Python implements this using `heapq`, which maintains a **min-heap**: a binary tree where the parent node is always smaller than or equal to its children. The smallest element is always at the root (index 0).
+In this example, every item needs a **priority number**. The number is what the heap uses to decide the order. A lower number means higher priority, so priority `1` comes out before priority `2`, and priority `2` comes out before priority `3`.
 
-> 💡 `heapq` is a min-heap by default: the smallest number comes out first. To simulate a max-heap (largest first), store values as negative numbers: `heapq.heappush(heap, -value)`.
+Python implements this using `heapq`, which maintains a **min-heap**.
+
+A **heap** is a tree-based data structure used when you repeatedly need quick access to the "most important" item. In Python's `heapq`, the heap is stored inside a normal list, but the list is arranged so it behaves like a binary tree. The key rule is the **heap property**: every parent must be smaller than or equal to its children. Because of this rule, the smallest item is always easy to find at the root of the heap, which is index `0` in the list.
+
+Heaps are not fully sorted lists. They only guarantee that the next item to remove is in the correct place. That makes them efficient for priority queues: inserting with `heappush()` and removing the smallest item with `heappop()` both take O(log n) time.
+
+
+[5, 10, 20, 30]
+
+
+      5
+    /   \
+  10     20
+ /
+30
+
+
+
+
+The important idea is that every `push()` moves a value upward if it is smaller than its parent, and every `pop()` removes the root then moves the replacement value downward. That is how the heap keeps the smallest value ready at index `0`.
 
 ```python
 import heapq   # Python's heap queue module — implements a min-heap

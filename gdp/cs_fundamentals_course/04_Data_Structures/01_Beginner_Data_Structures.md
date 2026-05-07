@@ -458,5 +458,3 @@ Phase 4: Advanced
 | **Graph** | Flexible connections between nodes |
 
 ---
-
-**You're ready to start. Pick one structure, implement it, solve two problems, then move to the next. Happy coding! 🚀**

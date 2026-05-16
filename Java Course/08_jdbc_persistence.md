@@ -1,14 +1,14 @@
-# Module 07: JDBC Persistence
+# Module 08: JDBC Persistence
 
-[Previous: Collections and Generics](06_collections_generics.md) | [Back to Index](README.md) | [Next: Functional Java](08_functional_java.md)
+[Previous: Collections and Generics](07_collections_generics.md) | [Back to Index](README.md) | [Next: Functional Java](09_functional_java.md)
 
 ---
 
-## 7.1 What is JDBC?
+## 8.1 What is JDBC?
 
 **Java Database Connectivity (JDBC)** is the standard API for connecting Java applications to relational databases. It provides a uniform interface that works with any database that has a JDBC driver (MySQL, PostgreSQL, Oracle, SQLite, etc.).
 
-### 7.1.1 JDBC Architecture
+### 8.1.1 JDBC Architecture
 
 ```mermaid
 flowchart LR
@@ -26,22 +26,22 @@ The JDBC API resides in `java.sql` and `javax.sql`. The application code interac
 
 ---
 
-## 7.2 Core JDBC Interfaces
+## 8.2 Core JDBC Interfaces
 
-### 7.2.1 Connection
+### 8.2.1 Connection
 
 Represents a session with the database. Obtained from `DriverManager.getConnection()`. All SQL operations require an active connection.
 
-### 7.2.2 Statement and PreparedStatement
+### 8.2.2 Statement and PreparedStatement
 
 - `Statement` -- Executes static SQL strings. Vulnerable to SQL injection.
 - `PreparedStatement` -- Precompiles parameterized SQL. Prevents SQL injection and improves performance for repeated queries.
 
-### 7.2.3 ResultSet
+### 8.2.3 ResultSet
 
 Represents the result of a `SELECT` query. It is a cursor that iterates over the returned rows.
 
-### 7.2.4 JDBC Lifecycle
+### 8.2.4 JDBC Lifecycle
 
 ```mermaid
 flowchart TD
@@ -56,9 +56,9 @@ flowchart TD
 
 ---
 
-## 7.3 Connection Management
+## 8.3 Connection Management
 
-### 7.3.1 Connection URL Format
+### 8.3.1 Connection URL Format
 
 ```
 jdbc:mysql://hostname:port/database_name
@@ -66,7 +66,7 @@ jdbc:postgresql://hostname:port/database_name
 jdbc:sqlite:filename.db
 ```
 
-### 7.3.2 try-with-resources
+### 8.3.2 try-with-resources
 
 Java 7 introduced try-with-resources to guarantee that `Connection`, `Statement`, and `ResultSet` objects are closed automatically, even if an exception occurs.
 
@@ -80,11 +80,11 @@ try (Connection conn = DriverManager.getConnection(URL, USER, PASS);
 
 ---
 
-## 7.4 CRUD Operations
+## 8.4 CRUD Operations
 
 CRUD stands for **Create, Read, Update, Delete** -- the four fundamental operations of persistent storage.
 
-### 7.4.1 SQL Operation Mapping
+### 8.4.1 SQL Operation Mapping
 
 | CRUD | SQL | JDBC Method |
 |------|-----|-------------|
@@ -97,7 +97,7 @@ CRUD stands for **Create, Read, Update, Delete** -- the four fundamental operati
 
 ---
 
-## 7.5 SQL Injection Prevention
+## 8.5 SQL Injection Prevention
 
 **SQL Injection** is an attack where malicious SQL is inserted through user input. `PreparedStatement` neutralizes this threat by separating SQL logic from data.
 
@@ -125,7 +125,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Module 07: JDBC Persistence - Code in Practice
+ * Module 08: JDBC Persistence - Code in Practice
  * Demonstrates database connectivity, CRUD operations with PreparedStatement,
  * and proper resource management using try-with-resources.
  *
@@ -261,4 +261,4 @@ public class JdbcDemo {
 
 ---
 
-[Previous: Collections and Generics](06_collections_generics.md) | [Back to Index](README.md) | [Next: Functional Java](08_functional_java.md)
+[Previous: Collections and Generics](07_collections_generics.md) | [Back to Index](README.md) | [Next: Functional Java](09_functional_java.md)

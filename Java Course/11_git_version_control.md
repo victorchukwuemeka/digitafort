@@ -1,14 +1,14 @@
-# Module 10: Git Version Control
+# Module 11: Git Version Control
 
-[Previous: Java Swing GUI](09_swing_gui.md) | [Back to Index](README.md) | [Next: Concurrency](11_concurrency.md)
+[Previous: Java Swing GUI](10_swing_gui.md) | [Back to Index](README.md) | [Next: Concurrency](12_concurrency.md)
 
 ---
 
-## 10.1 What is Version Control?
+## 11.1 What is Version Control?
 
 **Version control** is a system that records changes to files over time, enabling developers to recall specific versions later, compare changes across time, and collaborate without overwriting each other's work. Git is the industry-standard distributed version control system (DVCS). Unlike centralised systems, every developer holds a complete copy of the repository history on their local machine, enabling offline work and faster operations.
 
-### 10.1.1 Core Terminology
+### 11.1.1 Core Terminology
 
 | Term | Definition |
 |------|-----------|
@@ -21,7 +21,7 @@
 
 ---
 
-## 10.2 The Three-Stage Architecture
+## 11.2 The Three-Stage Architecture
 
 Every file in a Git repository exists in one of three states, corresponding to three distinct areas.
 
@@ -39,11 +39,11 @@ flowchart LR
     C -- "git checkout" --> A
 ```
 
-### 10.2.1 Working Directory
+### 11.2.1 Working Directory
 
 The working directory is the local filesystem view of the project. Files here may be **untracked** (new, never added to Git) or **tracked and modified** (previously committed, now changed). Git does not automatically record any of these changes.
 
-### 10.2.2 Staging Area (Index)
+### 11.2.2 Staging Area (Index)
 
 The staging area holds the exact set of changes intended for the next commit. This separates the act of editing from the act of recording. A developer may modify five files but stage only three, producing a focused, logically coherent commit.
 
@@ -53,7 +53,7 @@ git add src/                   # Stage all changes within a directory
 git add -p                     # Interactively stage individual hunks
 ```
 
-### 10.2.3 Local Repository
+### 11.2.3 Local Repository
 
 The local repository is the `.git` directory at the root of the project. It stores all commits, branches, tags, and configuration.
 
@@ -64,11 +64,11 @@ git commit -m "feat: add user registration validation logic"
 
 ---
 
-## 10.3 Branching Strategy
+## 11.3 Branching Strategy
 
 Branches enable multiple features or bug fixes to be developed concurrently without interference.
 
-### 10.3.1 Common Branch Commands
+### 11.3.1 Common Branch Commands
 
 ```bash
 git branch                      # List all local branches
@@ -79,7 +79,7 @@ git branch -d feature/user-auth # Delete a merged branch
 git branch -D feature/user-auth # Force-delete an unmerged branch
 ```
 
-### 10.3.2 Feature Branch Workflow
+### 11.3.2 Feature Branch Workflow
 
 ```
 main:    A --- B --------- F  (merge commit)
@@ -93,9 +93,9 @@ feature:         C --- D -E
 
 ---
 
-## 10.4 Merging and Rebase
+## 11.4 Merging and Rebase
 
-### 10.4.1 git merge
+### 11.4.1 git merge
 
 `git merge` combines two branch histories by creating a new merge commit with two parents. This preserves the full branching history.
 
@@ -104,7 +104,7 @@ git switch main
 git merge feature/login
 ```
 
-### 10.4.2 git rebase
+### 11.4.2 git rebase
 
 `git rebase` rewrites the feature branch commits as if they were created on top of the current tip of the target branch. This produces a linear history without merge commits.
 
@@ -119,11 +119,11 @@ A - B - C  (main)            A - B - C  (main)
 
 ---
 
-## 10.5 Merge Conflict Resolution
+## 11.5 Merge Conflict Resolution
 
 A **merge conflict** occurs when two branches modify the same region of the same file in incompatible ways.
 
-### 10.5.1 Conflict Markers
+### 11.5.1 Conflict Markers
 
 Git inserts conflict markers into the affected file:
 
@@ -135,7 +135,7 @@ Git inserts conflict markers into the affected file:
 >>>>>>> feature/greeting-update
 ```
 
-### 10.5.2 Resolution Steps
+### 11.5.2 Resolution Steps
 
 1. Open the conflicted file in an editor.
 2. Decide which change to keep (or combine both).
@@ -145,7 +145,7 @@ Git inserts conflict markers into the affected file:
 
 ---
 
-## 10.6 Essential Command Reference
+## 11.6 Essential Command Reference
 
 | Category | Command | Purpose |
 |----------|---------|---------|
@@ -166,7 +166,7 @@ Git inserts conflict markers into the affected file:
 
 ```bash
 #!/usr/bin/env bash
-# Module 10: Git Version Control - Code in Practice
+# Module 11: Git Version Control - Code in Practice
 # Demonstrates a complete feature branch workflow from init to merge.
 
 # STEP 1: Initialise a new local repository
@@ -236,4 +236,4 @@ echo "Workflow complete. Calculator feature is now in main."
 
 ---
 
-[Previous: Java Swing GUI](09_swing_gui.md) | [Back to Index](README.md) | [Next: Concurrency](11_concurrency.md)
+[Previous: Java Swing GUI](10_swing_gui.md) | [Back to Index](README.md) | [Next: Concurrency](12_concurrency.md)

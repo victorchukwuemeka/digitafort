@@ -1,14 +1,14 @@
-# Module 08: Functional Java
+# Module 09: Functional Java
 
-[Previous: JDBC Persistence](07_jdbc_persistence.md) | [Back to Index](README.md) | [Next: Java Swing GUI](09_swing_gui.md)
+[Previous: JDBC Persistence](08_jdbc_persistence.md) | [Back to Index](README.md) | [Next: Java Swing GUI](10_swing_gui.md)
 
 ---
 
-## 8.1 Lambda Expressions
+## 9.1 Lambda Expressions
 
 A **lambda expression** is an anonymous function -- a concise way to represent a single method implementation that can be passed as an argument or stored in a variable. Introduced in Java 8, lambdas enable a functional programming style within Java's object-oriented framework.
 
-### 8.1.1 Syntax
+### 9.1.1 Syntax
 
 ```java
 (parameters) -> expression            // Single expression; result is implicitly returned
@@ -28,7 +28,7 @@ Consumer<String> printer = s -> System.out.println(s);
 BinaryOperator<Integer> add = (a, b) -> a + b;
 ```
 
-### 8.1.2 Lambda vs. Anonymous Class
+### 9.1.2 Lambda vs. Anonymous Class
 
 Lambdas replace verbose anonymous inner classes when implementing single-method interfaces:
 
@@ -47,11 +47,11 @@ Comparator<String> comp = (a, b) -> a.length() - b.length();
 
 ---
 
-## 8.2 Functional Interfaces
+## 9.2 Functional Interfaces
 
 A **functional interface** is an interface that contains exactly one abstract method. It may have any number of default or static methods. The `@FunctionalInterface` annotation enforces this constraint at compile time.
 
-### 8.2.1 Built-in Functional Interfaces
+### 9.2.1 Built-in Functional Interfaces
 
 | Interface | Method | Input | Output | Use Case |
 |-----------|--------|-------|--------|----------|
@@ -62,7 +62,7 @@ A **functional interface** is an interface that contains exactly one abstract me
 | `BinaryOperator<T>` | `apply(T a, T b)` | T, T | T | Reduction (sum, max) |
 | `UnaryOperator<T>` | `apply(T t)` | T | T | In-place transformation |
 
-### 8.2.2 Custom Functional Interface
+### 9.2.2 Custom Functional Interface
 
 ```java
 @FunctionalInterface
@@ -76,7 +76,7 @@ Validator<String> emailValidator = s -> s.contains("@") && s.contains(".");
 
 ---
 
-## 8.3 Method References
+## 9.3 Method References
 
 Method references are shorthand for lambdas that call an existing method. They use the `::` operator.
 
@@ -89,11 +89,11 @@ Method references are shorthand for lambdas that call an existing method. They u
 
 ---
 
-## 8.4 The Stream API
+## 9.4 The Stream API
 
 The Stream API provides a declarative, pipeline-based approach to processing collections. A stream does not store data; it processes elements from a source through a pipeline of operations.
 
-### 8.4.1 Stream Pipeline Structure
+### 9.4.1 Stream Pipeline Structure
 
 ```mermaid
 flowchart LR
@@ -106,7 +106,7 @@ flowchart LR
 - **Intermediate operations**: Transform the stream and return a new stream. They are **lazy** -- not executed until a terminal operation is invoked.
 - **Terminal operations**: Trigger pipeline execution and produce a result or side effect.
 
-### 8.4.2 Key Intermediate Operations
+### 9.4.2 Key Intermediate Operations
 
 | Operation | Description | Example |
 |-----------|-------------|---------|
@@ -117,7 +117,7 @@ flowchart LR
 | `limit(n)` | Takes only the first n elements | `.limit(5)` |
 | `flatMap(Function)` | Flattens nested streams | `.flatMap(List::stream)` |
 
-### 8.4.3 Key Terminal Operations
+### 9.4.3 Key Terminal Operations
 
 | Operation | Description | Return Type |
 |-----------|-------------|-------------|
@@ -128,7 +128,7 @@ flowchart LR
 | `anyMatch(Predicate)` | Checks if any element matches | boolean |
 | `findFirst()` | Returns first element | Optional |
 
-### 8.4.4 Filter / Map / Reduce Diagram
+### 9.4.4 Filter / Map / Reduce Diagram
 
 ```mermaid
 flowchart LR
@@ -139,7 +139,7 @@ flowchart LR
 
 ---
 
-## 8.5 Optional
+## 9.5 Optional
 
 `Optional<T>` is a container that may or may not hold a non-null value. It is used to express the possibility of absence and avoid `NullPointerException`.
 
@@ -163,7 +163,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * Module 08: Functional Java - Code in Practice
+ * Module 09: Functional Java - Code in Practice
  * Demonstrates lambdas, functional interfaces, method references,
  * and the Stream API (filter/map/reduce).
  */
@@ -261,4 +261,4 @@ public class FunctionalDemo {
 
 ---
 
-[Previous: JDBC Persistence](07_jdbc_persistence.md) | [Back to Index](README.md) | [Next: Java Swing GUI](09_swing_gui.md)
+[Previous: JDBC Persistence](08_jdbc_persistence.md) | [Back to Index](README.md) | [Next: Java Swing GUI](10_swing_gui.md)

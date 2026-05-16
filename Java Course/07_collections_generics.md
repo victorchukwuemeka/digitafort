@@ -1,14 +1,14 @@
-# Module 06: Collections and Generics
+# Module 07: Collections and Generics
 
-[Previous: Advanced OOP](05_advanced_oop.md) | [Back to Index](README.md) | [Next: JDBC Persistence](07_jdbc_persistence.md)
+[Previous: Advanced OOP](06_advanced_oop.md) | [Back to Index](README.md) | [Next: JDBC Persistence](08_jdbc_persistence.md)
 
 ---
 
-## 6.1 The Collections Framework
+## 7.1 The Collections Framework
 
 Java's Collections Framework provides a unified architecture for storing, retrieving, and manipulating groups of objects. Unlike arrays, collections are dynamically sized.
 
-### 6.1.1 Core Interface Hierarchy
+### 7.1.1 Core Interface Hierarchy
 
 ```mermaid
 classDiagram
@@ -55,11 +55,11 @@ classDiagram
 
 ---
 
-## 6.2 ArrayList
+## 7.2 ArrayList
 
 `ArrayList` is a resizable array implementation of the `List` interface. It provides O(1) random access by index and amortized O(1) appends.
 
-### 6.2.1 Key Characteristics
+### 7.2.1 Key Characteristics
 
 - Maintains insertion order.
 - Allows duplicate elements.
@@ -67,7 +67,7 @@ classDiagram
 - Not thread-safe (use `Collections.synchronizedList()` or `CopyOnWriteArrayList` for concurrency).
 - Backed by an internal array that resizes (typically by 50%) when capacity is exceeded.
 
-### 6.2.2 Essential Operations
+### 7.2.2 Essential Operations
 
 | Operation | Method | Time Complexity |
 |-----------|--------|----------------|
@@ -80,11 +80,11 @@ classDiagram
 
 ---
 
-## 6.3 HashMap
+## 7.3 HashMap
 
 `HashMap` stores data as key-value pairs. Keys must be unique; values can be duplicated. It provides O(1) average-case lookup, insertion, and deletion.
 
-### 6.3.1 How Hashing Works
+### 7.3.1 How Hashing Works
 
 1. The `hashCode()` method of the key produces an integer hash.
 2. The hash is mapped to a bucket index in the internal array.
@@ -99,17 +99,17 @@ flowchart LR
     B --> F["Bucket 3: empty"]
 ```
 
-### 6.3.2 Key Requirement
+### 7.3.2 Key Requirement
 
 For `HashMap` to function correctly, keys must properly implement both `hashCode()` and `equals()`. If two objects are `equals()`, they must produce the same `hashCode()`.
 
 ---
 
-## 6.4 HashSet
+## 7.4 HashSet
 
 `HashSet` stores unique elements with no guaranteed order. Internally, it is backed by a `HashMap` where elements are keys and values are a dummy constant.
 
-### 6.4.1 Key Characteristics
+### 7.4.1 Key Characteristics
 
 - No duplicate elements (determined by `hashCode()` and `equals()`).
 - No guaranteed iteration order.
@@ -118,11 +118,11 @@ For `HashMap` to function correctly, keys must properly implement both `hashCode
 
 ---
 
-## 6.5 Generics
+## 7.5 Generics
 
 Generics enable **type-safe** collections and classes by parameterizing types at compile time, eliminating the need for unsafe casts.
 
-### 6.5.1 Without Generics (Pre-Java 5)
+### 7.5.1 Without Generics (Pre-Java 5)
 
 ```java
 List rawList = new ArrayList();
@@ -131,7 +131,7 @@ rawList.add(42);                          // No compile-time check
 String s = (String) rawList.get(1);       // ClassCastException at runtime!
 ```
 
-### 6.5.2 With Generics
+### 7.5.2 With Generics
 
 ```java
 List<String> safeList = new ArrayList<>();
@@ -140,14 +140,14 @@ safeList.add("Hello");
 String s = safeList.get(0);               // No cast needed
 ```
 
-### 6.5.3 Type Erasure
+### 7.5.3 Type Erasure
 
 Generics are a compile-time feature. At runtime, generic type information is erased and replaced with `Object` (or the upper bound). This means:
 - You cannot use `instanceof` with a generic type.
 - You cannot create arrays of generic types.
 - You cannot instantiate a generic type parameter with `new T()`.
 
-### 6.5.4 Writing Generic Classes
+### 7.5.4 Writing Generic Classes
 
 ```java
 public class Pair<K, V> {
@@ -164,7 +164,7 @@ public class Pair<K, V> {
 }
 ```
 
-### 6.5.5 Bounded Type Parameters
+### 7.5.5 Bounded Type Parameters
 
 ```java
 // T must be a subtype of Comparable<T>
@@ -186,7 +186,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Module 06: Collections and Generics - Code in Practice
+ * Module 07: Collections and Generics - Code in Practice
  * Demonstrates ArrayList, HashMap, HashSet, and generic type safety.
  */
 public class CollectionsDemo {
@@ -294,4 +294,4 @@ public class CollectionsDemo {
 
 ---
 
-[Previous: Advanced OOP](05_advanced_oop.md) | [Back to Index](README.md) | [Next: JDBC Persistence](07_jdbc_persistence.md)
+[Previous: Advanced OOP](06_advanced_oop.md) | [Back to Index](README.md) | [Next: JDBC Persistence](08_jdbc_persistence.md)

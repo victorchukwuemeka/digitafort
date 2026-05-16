@@ -1,14 +1,14 @@
-# Module 05: Advanced OOP
+# Module 06: Advanced OOP
 
-[Previous: OOP Basics](04_oop_basics.md) | [Back to Index](README.md) | [Next: Collections and Generics](06_collections_generics.md)
+[Previous: OOP Basics](05_oop_basics.md) | [Back to Index](README.md) | [Next: Collections and Generics](07_collections_generics.md)
 
 ---
 
-## 5.1 Inheritance
+## 6.1 Inheritance
 
 Inheritance allows a new class (subclass) to acquire the fields and methods of an existing class (superclass). It models an "is-a" relationship and promotes code reuse.
 
-### 5.1.1 Syntax and Mechanics
+### 6.1.1 Syntax and Mechanics
 
 ```java
 public class Animal {               // Superclass (parent)
@@ -28,13 +28,13 @@ public class Dog extends Animal {   // Subclass (child) inherits from Animal
 
 The `extends` keyword establishes the inheritance relationship. A subclass inherits all non-private members of its superclass.
 
-### 5.1.2 The super Keyword
+### 6.1.2 The super Keyword
 
 `super` refers to the immediate parent class. It is used to:
 - Call the parent constructor: `super(args)` (must be the first statement in the child constructor).
 - Access a parent method that has been overridden: `super.methodName()`.
 
-### 5.1.3 Inheritance Hierarchy Diagram
+### 6.1.3 Inheritance Hierarchy Diagram
 
 ```mermaid
 classDiagram
@@ -57,17 +57,17 @@ classDiagram
     Dog <|-- GuideDog
 ```
 
-### 5.1.4 Single Inheritance Rule
+### 6.1.4 Single Inheritance Rule
 
 Java supports only **single inheritance** for classes. A class can extend exactly one superclass. This avoids the diamond problem found in languages like C++ that allow multiple inheritance.
 
 ---
 
-## 5.2 Method Overriding
+## 6.2 Method Overriding
 
 Method overriding occurs when a subclass provides its own implementation of a method that is already defined in its superclass. The method signature (name, parameters, return type) must be identical.
 
-### 5.2.1 Rules for Overriding
+### 6.2.1 Rules for Overriding
 
 - The overriding method must have the same signature as the parent method.
 - The access modifier can be the same or less restrictive (e.g., `protected` to `public`).
@@ -91,11 +91,11 @@ public class Dog extends Animal {
 
 ---
 
-## 5.3 Polymorphism
+## 6.3 Polymorphism
 
 Polymorphism ("many forms") allows a superclass reference to point to a subclass object. The JVM determines which method implementation to call at **runtime**, not at compile time. This is called **dynamic method dispatch**.
 
-### 5.3.1 How It Works
+### 6.3.1 How It Works
 
 ```java
 Animal myAnimal = new Dog();   // Superclass reference, subclass object
@@ -104,7 +104,7 @@ myAnimal.speak();              // Calls Dog.speak() (overridden -- resolved at r
 // myAnimal.bark();            // Compilation error: Animal has no bark() method
 ```
 
-### 5.3.2 Polymorphism Resolution Flow
+### 6.3.2 Polymorphism Resolution Flow
 
 ```mermaid
 flowchart TD
@@ -114,7 +114,7 @@ flowchart TD
     C -->|No| E["Execute Animal.speak()\n(Inherited)"]
 ```
 
-### 5.3.3 Practical Value
+### 6.3.3 Practical Value
 
 Polymorphism enables writing code that operates on the superclass type while automatically adapting to the specific subclass at runtime. This is the foundation of the **Open/Closed Principle**: software entities should be open for extension but closed for modification.
 
@@ -129,11 +129,11 @@ public void makeAllSpeak(Animal[] animals) {
 
 ---
 
-## 5.4 Abstract Classes
+## 6.4 Abstract Classes
 
 An **abstract class** is a class that cannot be instantiated directly. It serves as a partial implementation that subclasses must complete.
 
-### 5.4.1 Key Characteristics
+### 6.4.1 Key Characteristics
 
 - Declared with the `abstract` keyword.
 - Can contain both abstract methods (no body) and concrete methods (with body).
@@ -160,11 +160,11 @@ public abstract class Shape {
 
 ---
 
-## 5.5 Interfaces
+## 6.5 Interfaces
 
 An **interface** defines a contract of behavior that implementing classes must fulfill. Unlike abstract classes, interfaces support **multiple implementation**, allowing a class to adopt behaviors from multiple sources.
 
-### 5.5.1 Interface Syntax
+### 6.5.1 Interface Syntax
 
 ```java
 public interface Drawable {
@@ -182,7 +182,7 @@ public interface Drawable {
 }
 ```
 
-### 5.5.2 Abstract Class vs. Interface
+### 6.5.2 Abstract Class vs. Interface
 
 | Feature | Abstract Class | Interface |
 |---------|---------------|-----------|
@@ -193,7 +193,7 @@ public interface Drawable {
 | Multiple Inheritance | Single only | Multiple allowed |
 | Use Case | Shared state + partial behavior | Pure behavior contract |
 
-### 5.5.3 Multiple Interface Implementation
+### 6.5.3 Multiple Interface Implementation
 
 ```mermaid
 classDiagram
@@ -221,7 +221,7 @@ classDiagram
 
 ```java
 /**
- * Module 05: Advanced OOP - Code in Practice
+ * Module 06: Advanced OOP - Code in Practice
  * Demonstrates inheritance, method overriding, polymorphism,
  * abstract classes, and interface implementation.
  */
@@ -333,4 +333,4 @@ class Rectangle extends Shape {
 
 ---
 
-[Previous: OOP Basics](04_oop_basics.md) | [Back to Index](README.md) | [Next: Collections and Generics](06_collections_generics.md)
+[Previous: OOP Basics](05_oop_basics.md) | [Back to Index](README.md) | [Next: Collections and Generics](07_collections_generics.md)

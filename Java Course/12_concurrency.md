@@ -1,14 +1,14 @@
-# Module 11: Concurrency
+# Module 12: Concurrency
 
-[Previous: Git Version Control](10_git_version_control.md) | [Back to Index](README.md) | [Next: Capstone Integration](12_capstone.md)
+[Previous: Git Version Control](11_git_version_control.md) | [Back to Index](README.md) | [Next: Capstone Integration](13_capstone.md)
 
 ---
 
-## 11.1 Concurrency and Threads
+## 12.1 Concurrency and Threads
 
 A **thread** is the smallest unit of execution within a process. A Java process always has at least one thread: the **main thread**, which executes the `main()` method. Concurrency enables multiple threads to exist simultaneously, sharing the process's memory space. This is distinct from **parallelism**, where threads execute simultaneously on multiple CPU cores. Concurrency is about the structure of the program; parallelism is about physical simultaneous execution.
 
-### 11.1.1 Thread Lifecycle
+### 12.1.1 Thread Lifecycle
 
 A Java thread moves through a defined set of states from creation to termination.
 
@@ -28,11 +28,11 @@ stateDiagram-v2
 
 ---
 
-## 11.2 Creating Threads
+## 12.2 Creating Threads
 
 Java provides two primary mechanisms for defining the work a thread performs.
 
-### 11.2.1 Extending Thread
+### 12.2.1 Extending Thread
 
 A class can extend `Thread` and override its `run()` method. This is the simpler approach but is inflexible because Java does not support multiple inheritance.
 
@@ -52,7 +52,7 @@ public class PrinterThread extends Thread {
 }
 ```
 
-### 11.2.2 Implementing the Runnable Interface
+### 12.2.2 Implementing the Runnable Interface
 
 Implementing `Runnable` separates the task definition from the thread mechanism. This is the preferred approach because a class can still extend another class.
 
@@ -72,7 +72,7 @@ t.start(); // start() allocates a new call stack and invokes run() on it
 // t.run() would execute on the CURRENT thread, not a new one -- a common mistake
 ```
 
-### 11.2.3 The Callable Interface and Future
+### 12.2.3 The Callable Interface and Future
 
 `Runnable` cannot return a value or throw a checked exception. `Callable<V>` addresses both limitations. It returns a `Future<V>` that represents the result of an asynchronous computation.
 
@@ -85,11 +85,11 @@ Callable<Integer> task = () -> {
 
 ---
 
-## 11.3 The Race Condition Problem
+## 12.3 The Race Condition Problem
 
 When multiple threads read and write shared data without coordination, the result depends on the unpredictable order of thread scheduling. This is a **race condition**. The portion of code that accesses shared state is called the **critical section**.
 
-### 11.3.1 Anatomy of a Race Condition
+### 12.3.1 Anatomy of a Race Condition
 
 Consider a counter incremented by two threads:
 
@@ -105,11 +105,11 @@ The `count++` operation is not atomic. It decomposes into three steps: read, inc
 
 ---
 
-## 11.4 Synchronization
+## 12.4 Synchronization
 
 Java's `synchronized` keyword guarantees that only one thread at a time can execute a block or method that holds a given object's **monitor lock** (also called an intrinsic lock).
 
-### 11.4.1 Synchronized Methods
+### 12.4.1 Synchronized Methods
 
 ```java
 public class SafeCounter {
@@ -126,7 +126,7 @@ public class SafeCounter {
 }
 ```
 
-### 11.4.2 Synchronized Blocks
+### 12.4.2 Synchronized Blocks
 
 Synchronizing on the entire method locks `this` for the full duration. A synchronized block is more granular — it acquires the lock only for the minimum critical section, improving throughput.
 
@@ -147,7 +147,7 @@ public void process() {
 }
 ```
 
-### 11.4.3 The volatile Keyword
+### 12.4.3 The volatile Keyword
 
 The `volatile` keyword guarantees that reads and writes to a variable are always performed directly from and to main memory, preventing threads from caching a stale copy. It solves visibility but not atomicity.
 
@@ -161,11 +161,11 @@ public void stop() {
 
 ---
 
-## 11.5 Thread Pools and the Executor Framework
+## 12.5 Thread Pools and the Executor Framework
 
 Creating a new `Thread` for every task is expensive: each thread requires its own call stack (typically 512KB–1MB). The **Executor Framework** manages a reusable pool of worker threads, accepting tasks and dispatching them to available threads.
 
-### 11.5.1 ExecutorService
+### 12.5.1 ExecutorService
 
 `ExecutorService` is the primary interface for managing thread pools. `Executors` provides factory methods for common configurations.
 
@@ -176,7 +176,7 @@ Creating a new `Thread` for every task is expensive: each thread requires its ow
 | `Executors.newSingleThreadExecutor()` | Single worker thread; tasks execute sequentially |
 | `Executors.newScheduledThreadPool(n)` | Supports delayed and periodic task execution |
 
-### 11.5.2 Thread Pool Architecture
+### 12.5.2 Thread Pool Architecture
 
 ```mermaid
 flowchart LR
@@ -191,7 +191,7 @@ flowchart LR
     W3 --> R
 ```
 
-### 11.5.3 Shutting Down an ExecutorService
+### 12.5.3 Shutting Down an ExecutorService
 
 An `ExecutorService` must be explicitly shut down; otherwise its threads prevent the JVM from exiting.
 
@@ -210,7 +210,7 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Module 11: Concurrency - Code in Practice
+ * Module 12: Concurrency - Code in Practice
  *
  * Demonstrates thread creation via Runnable, the race condition problem,
  * synchronization, AtomicInteger, and the ExecutorService thread pool.
@@ -340,4 +340,4 @@ public class ConcurrencyDemo {
 
 ---
 
-[Previous: Git Version Control](10_git_version_control.md) | [Back to Index](README.md) | [Next: Capstone Integration](12_capstone.md)
+[Previous: Git Version Control](11_git_version_control.md) | [Back to Index](README.md) | [Next: Capstone Integration](13_capstone.md)

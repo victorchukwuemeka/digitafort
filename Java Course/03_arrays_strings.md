@@ -1,6 +1,6 @@
 # Module 03: Arrays and Strings
 
-[Previous: Control Flow](02_control_flow.md) | [Back to Index](README.md) | [Next: OOP Basics](04_oop_basics.md)
+[Previous: Control Flow](02_control_flow.md) | [Back to Index](README.md) | [Next: About Methods](04_methods.md)
 
 ---
 
@@ -273,4 +273,4 @@ public class ArraysStringsDemo {
 
 ---
 
-[Previous: Control Flow](02_control_flow.md) | [Back to Index](README.md) | [Next: OOP Basics](04_oop_basics.md)
+[Previous: Control Flow](02_control_flow.md) | [Back to Index](README.md) | [Next: About Methods](04_methods.md)

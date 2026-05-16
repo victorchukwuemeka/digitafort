@@ -1,14 +1,14 @@
-# Module 09: Java Swing GUI
+# Module 10: Java Swing GUI
 
-[Previous: Functional Java](08_functional_java.md) | [Back to Index](README.md) | [Next: Git Version Control](10_git_version_control.md)
+[Previous: Functional Java](09_functional_java.md) | [Back to Index](README.md) | [Next: Git Version Control](11_git_version_control.md)
 
 ---
 
-## 9.1 Event-Driven Programming
+## 10.1 Event-Driven Programming
 
 Traditional procedural programs execute from top to bottom in a predetermined sequence. Graphical user interface (GUI) programs operate under a fundamentally different paradigm: **event-driven programming**. In this model, the application initialises its components and then enters an idle state, waiting for user-generated events such as button clicks, keystrokes, or mouse movements. Each event triggers a corresponding handler, known as a **listener**, which contains the response logic.
 
-### 9.1.1 The Event Dispatch Thread
+### 10.1.1 The Event Dispatch Thread
 
 Swing is **not thread-safe**. All creation and modification of Swing components must occur on a dedicated thread called the **Event Dispatch Thread (EDT)**. Performing long-running operations on the EDT causes the UI to freeze. The `SwingUtilities.invokeLater()` method schedules a `Runnable` to execute on the EDT, which is the correct entry point for any Swing application.
 
@@ -19,7 +19,7 @@ SwingUtilities.invokeLater(() -> {
 });
 ```
 
-### 9.1.2 Event Flow Architecture
+### 10.1.2 Event Flow Architecture
 
 ```mermaid
 flowchart LR
@@ -32,13 +32,13 @@ flowchart LR
 
 ---
 
-## 9.2 The JFrame and JPanel
+## 10.2 The JFrame and JPanel
 
 `JFrame` is the top-level window container. It provides the title bar, window borders, and the close/minimise/maximise controls. You should never draw directly on a `JFrame`; instead, add a `JPanel` to it.
 
 `JPanel` is a general-purpose lightweight container used for grouping components and custom painting. It acts as the canvas on which you arrange other components.
 
-### 9.2.1 JFrame Hierarchy
+### 10.2.1 JFrame Hierarchy
 
 ```mermaid
 classDiagram
@@ -70,7 +70,7 @@ classDiagram
     Frame <|-- JFrame
 ```
 
-### 9.2.2 Essential JFrame Configuration
+### 10.2.2 Essential JFrame Configuration
 
 | Method | Purpose |
 |--------|---------|
@@ -83,11 +83,11 @@ classDiagram
 
 ---
 
-## 9.3 Layout Managers
+## 10.3 Layout Managers
 
 A **Layout Manager** is an object that determines the size and position of components within a container. Swing deliberately separates layout logic from component logic, allowing the same components to be rearranged by swapping the layout manager.
 
-### 9.3.1 FlowLayout
+### 10.3.1 FlowLayout
 
 The default layout for `JPanel`. Arranges components in a horizontal row, wrapping to the next line when the row is full.
 
@@ -96,7 +96,7 @@ panel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
 // Alignment: LEFT. Horizontal gap: 10px. Vertical gap: 5px.
 ```
 
-### 9.3.2 BorderLayout
+### 10.3.2 BorderLayout
 
 The default layout for `JFrame`'s content pane. Divides the container into five regions: `NORTH`, `SOUTH`, `EAST`, `WEST`, and `CENTER`. Each region can hold one component.
 
@@ -110,7 +110,7 @@ The default layout for `JFrame`'s content pane. Divides the container into five 
 +-----------------------------+
 ```
 
-### 9.3.3 GridLayout
+### 10.3.3 GridLayout
 
 Arranges components in a uniform grid of rows and columns. Every cell is the same size.
 
@@ -119,13 +119,13 @@ panel.setLayout(new GridLayout(3, 2, 5, 5));
 // 3 rows, 2 columns. Horizontal gap: 5px. Vertical gap: 5px.
 ```
 
-### 9.3.4 GridBagLayout
+### 10.3.4 GridBagLayout
 
 The most flexible layout manager. Allows components to span multiple rows or columns and assigns weights to control how extra space is distributed. It requires a `GridBagConstraints` object to configure each component.
 
 ---
 
-## 9.4 Common Swing Components
+## 10.4 Common Swing Components
 
 | Component | Class | Purpose |
 |-----------|-------|---------|
@@ -140,11 +140,11 @@ The most flexible layout manager. Allows components to span multiple rows or col
 
 ---
 
-## 9.5 ActionListeners
+## 10.5 ActionListeners
 
 An `ActionListener` is a functional interface that responds to action events, most commonly button clicks. It declares a single method: `actionPerformed(ActionEvent e)`.
 
-### 9.5.1 Registering a Listener
+### 10.5.1 Registering a Listener
 
 ```java
 JButton submitButton = new JButton("Submit");
@@ -156,7 +156,7 @@ submitButton.addActionListener(e -> {
 });
 ```
 
-### 9.5.2 The ActionEvent Object
+### 10.5.2 The ActionEvent Object
 
 The `ActionEvent` passed to `actionPerformed` provides:
 - `getSource()` — the component that originated the event.
@@ -174,7 +174,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Module 09: Java Swing GUI - Code in Practice
+ * Module 10: Java Swing GUI - Code in Practice
  *
  * Demonstrates JFrame, JPanel, BorderLayout, FlowLayout, common components,
  * and ActionListener-based event handling. All Swing work is performed
@@ -338,4 +338,4 @@ public class SwingGUIDemo {
 
 ---
 
-[Previous: Functional Java](08_functional_java.md) | [Back to Index](README.md) | [Next: Git Version Control](10_git_version_control.md)
+[Previous: Functional Java](09_functional_java.md) | [Back to Index](README.md) | [Next: Git Version Control](11_git_version_control.md)

@@ -1,14 +1,14 @@
-# Module 12: Capstone Integration
+# Module 13: Capstone Integration
 
-[Previous: Concurrency](11_concurrency.md) | [Back to Index](README.md)
+[Previous: Concurrency](12_concurrency.md) | [Back to Index](README.md)
 
 ---
 
-## 12.1 Capstone Overview
+## 13.1 Capstone Overview
 
 This module integrates every concept introduced in Modules 01 through 11 into a single, cohesive application: a **multi-threaded inventory management system** with a Swing GUI, JDBC persistence, functional data processing, and a Git-managed lifecycle. The capstone does not introduce new language features; it demands that you combine existing skills under the constraints of a production-grade architecture.
 
-### 12.1.1 Learning Objectives
+### 13.1.1 Learning Objectives
 
 Upon completing the capstone, you will be able to:
 
@@ -22,11 +22,11 @@ Upon completing the capstone, you will be able to:
 
 ---
 
-## 12.2 Modular Architecture
+## 13.2 Modular Architecture
 
 A modular architecture organises code into packages with single, well-defined responsibilities. This enforces the **Separation of Concerns** principle and makes the codebase testable, maintainable, and extensible.
 
-### 12.2.1 Recommended Package Structure
+### 13.2.1 Recommended Package Structure
 
 ```
 inventory-system/
@@ -61,7 +61,7 @@ inventory-system/
 └── README.md
 ```
 
-### 12.2.2 Dependency Flow
+### 13.2.2 Dependency Flow
 
 The dependency rule: inner layers must never depend on outer layers. The UI may call the service layer; the service layer may call the repository; neither should know about the UI.
 
@@ -83,9 +83,9 @@ flowchart TB
 
 ---
 
-## 12.3 Domain Model
+## 13.3 Domain Model
 
-### 12.3.1 The Product Entity
+### 13.3.1 The Product Entity
 
 ```java
 package com.inventory.model;
@@ -126,7 +126,7 @@ public class Product {
 
 ---
 
-## 12.4 Database Schema
+## 13.4 Database Schema
 
 ```sql
 -- sql/schema.sql
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS products (
 
 ---
 
-## 12.5 Repository Layer
+## 13.5 Repository Layer
 
 ```java
 package com.inventory.repository;
@@ -220,7 +220,7 @@ public class ProductRepository {
 
 ---
 
-## 12.6 Service Layer
+## 13.6 Service Layer
 
 ```java
 package com.inventory.service;
@@ -273,7 +273,7 @@ public class InventoryService {
 
 ---
 
-## 12.7 EDT Safety in the UI Layer
+## 13.7 EDT Safety in the UI Layer
 
 The UI layer must never call blocking operations (such as JDBC queries) directly on the EDT. Doing so freezes the window. Use a thread pool to run the service call on a background thread, then use `SwingUtilities.invokeLater()` to update the UI once results are available.
 
@@ -307,11 +307,11 @@ private void handleLoadButtonClick() {
 
 ---
 
-## 12.8 Testing Strategy
+## 13.8 Testing Strategy
 
 Every layer should have a corresponding test strategy. Use **JUnit 5** for unit tests and mock collaborators with **Mockito**.
 
-### 12.8.1 Unit Testing the Service Layer
+### 13.8.1 Unit Testing the Service Layer
 
 ```java
 import org.junit.jupiter.api.*;
@@ -365,7 +365,7 @@ class InventoryServiceTest {
 
 ---
 
-## 12.9 Git Workflow for the Capstone
+## 13.9 Git Workflow for the Capstone
 
 Apply the feature branch workflow from Module 10 throughout the capstone.
 
@@ -384,7 +384,7 @@ Each branch should be merged to `main` only after it is complete and manually ve
 
 ---
 
-## 12.10 Submission Checklist
+## 13.10 Submission Checklist
 
 Before considering the capstone complete, verify each item:
 
@@ -420,7 +420,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Module 12: Capstone Integration - Code in Practice
+ * Module 13: Capstone Integration - Code in Practice
  *
  * This is the application entry point. It wires together the database
  * connection, repository, service, and UI -- demonstrating how all
@@ -496,4 +496,4 @@ public class Main {
 
 ---
 
-[Previous: Concurrency](11_concurrency.md) | [Back to Index](README.md)
+[Previous: Concurrency](12_concurrency.md) | [Back to Index](README.md)

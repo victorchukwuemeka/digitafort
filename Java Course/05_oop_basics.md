@@ -1,14 +1,14 @@
-# Module 04: OOP Basics
+# Module 05: OOP Basics
 
-[Previous: Arrays and Strings](03_arrays_strings.md) | [Back to Index](README.md) | [Next: Advanced OOP](05_advanced_oop.md)
+[Previous: About Methods](04_methods.md) | [Back to Index](README.md) | [Next: Advanced OOP](06_advanced_oop.md)
 
 ---
 
-## 4.1 Class vs. Object
+## 5.1 Class vs. Object
 
 A **class** is a blueprint that defines the structure (fields) and behavior (methods) of a type. An **object** is a concrete instance of a class, allocated on the heap at runtime.
 
-### 4.1.1 Anatomy of a Class
+### 5.1.1 Anatomy of a Class
 
 ```java
 public class Employee {
@@ -31,7 +31,7 @@ public class Employee {
 }
 ```
 
-### 4.1.2 Object Creation and Memory
+### 5.1.2 Object Creation and Memory
 
 When `new Employee("Alice", 101, 75000)` is called:
 1. Memory is allocated on the **heap** for the object's fields.
@@ -51,11 +51,11 @@ graph LR
 
 ---
 
-## 4.2 Constructors and the this Keyword
+## 5.2 Constructors and the this Keyword
 
 A **constructor** is a special method that shares the class name and has no return type. It is invoked exactly once when an object is created.
 
-### 4.2.1 Constructor Types
+### 5.2.1 Constructor Types
 
 **Default Constructor**: If no constructor is defined, Java provides a no-argument constructor that initializes fields to their default values.
 
@@ -63,7 +63,7 @@ A **constructor** is a special method that shares the class name and has no retu
 
 **Constructor Overloading**: A class can define multiple constructors with different parameter lists.
 
-### 4.2.2 The this Keyword
+### 5.2.2 The this Keyword
 
 `this` refers to the current object instance. It is used to:
 - Disambiguate between instance fields and constructor/method parameters.
@@ -88,11 +88,11 @@ public class Product {
 
 ---
 
-## 4.3 Access Modifiers and Encapsulation
+## 5.3 Access Modifiers and Encapsulation
 
 Access modifiers control the visibility of classes, fields, and methods. They are the mechanism for **encapsulation** -- hiding internal state and exposing only a controlled interface.
 
-### 4.3.1 Modifier Visibility Table
+### 5.3.1 Modifier Visibility Table
 
 | Modifier | Same Class | Same Package | Subclass | World |
 |----------|-----------|-------------|----------|-------|
@@ -101,7 +101,7 @@ Access modifiers control the visibility of classes, fields, and methods. They ar
 | `protected` | Yes | Yes | Yes | No |
 | `public` | Yes | Yes | Yes | Yes |
 
-### 4.3.2 Encapsulation Pattern
+### 5.3.2 Encapsulation Pattern
 
 The standard encapsulation pattern in Java uses `private` fields with `public` getter and setter methods:
 
@@ -121,7 +121,7 @@ public class BankAccount {
 }
 ```
 
-### 4.3.3 Why Encapsulation Matters
+### 5.3.3 Why Encapsulation Matters
 
 ```mermaid
 flowchart LR
@@ -134,11 +134,11 @@ Without encapsulation, any code could set `balance` to an invalid value like `-9
 
 ---
 
-## 4.4 The static Keyword
+## 5.4 The static Keyword
 
 The `static` keyword associates a member with the **class itself** rather than with any particular instance.
 
-### 4.4.1 Static Fields
+### 5.4.1 Static Fields
 
 A `static` field is shared across all instances of a class. There is only one copy, stored in the **method area** of the JVM (not on the heap with individual objects).
 
@@ -158,7 +158,7 @@ public class Employee {
 }
 ```
 
-### 4.4.2 Static vs. Instance Memory
+### 5.4.2 Static vs. Instance Memory
 
 ```mermaid
 graph TB
@@ -175,7 +175,7 @@ graph TB
     obj3 -.->|reads/writes| staticField
 ```
 
-### 4.4.3 Rules for static Members
+### 5.4.3 Rules for static Members
 
 - Static methods can access only static fields and other static methods.
 - Static methods cannot use `this` (there is no instance context).
@@ -183,7 +183,7 @@ graph TB
 
 ---
 
-## 4.5 The final Keyword
+## 5.5 The final Keyword
 
 The `final` keyword enforces immutability at different levels:
 
@@ -212,7 +212,7 @@ arr[0] = 99;                      // Allowed: modifying the object's contents
 
 ```java
 /**
- * Module 04: OOP Basics - Code in Practice
+ * Module 05: OOP Basics - Code in Practice
  * Demonstrates classes, constructors, encapsulation, static, and final.
  */
 public class OopBasicsDemo {
@@ -314,4 +314,4 @@ class Employee {
 
 ---
 
-[Previous: Arrays and Strings](03_arrays_strings.md) | [Back to Index](README.md) | [Next: Advanced OOP](05_advanced_oop.md)
+[Previous: About Methods](04_methods.md) | [Back to Index](README.md) | [Next: Advanced OOP](06_advanced_oop.md)

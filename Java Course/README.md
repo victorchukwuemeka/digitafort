@@ -26,15 +26,16 @@ Each module progresses from foundational theory to practical implementation, cul
 | 01 | Foundations | JVM architecture, compilation pipeline, data types |
 | 02 | Control Flow | Conditional logic, iteration, call stack mechanics |
 | 03 | Arrays and Strings | Data structures, immutability, memory optimization |
-| 04 | OOP Basics | Classes, objects, encapsulation, keyword semantics |
-| 05 | Advanced OOP | Inheritance, polymorphism, abstraction, interfaces |
-| 06 | Collections and Generics | Dynamic data structures, type-safe programming |
-| 07 | JDBC Persistence | Relational database connectivity, SQL integration |
-| 08 | Functional Java | Lambdas, functional interfaces, Stream API |
-| 09 | Java Swing GUI | Event-driven desktop application development |
-| 10 | Git Version Control | Repository management, branching, collaboration |
-| 11 | Concurrency | Multithreading, synchronization, thread pools |
-| 12 | Capstone Integration | Modular architecture, testing, final project |
+| 04 | About Methods | Method creation, parameters, overloading, overriding, recursion |
+| 05 | OOP Basics | Classes, objects, encapsulation, keyword semantics |
+| 06 | Advanced OOP | Inheritance, polymorphism, abstraction, interfaces |
+| 07 | Collections and Generics | Dynamic data structures, type-safe programming |
+| 08 | JDBC Persistence | Relational database connectivity, SQL integration |
+| 09 | Functional Java | Lambdas, functional interfaces, Stream API |
+| 10 | Java Swing GUI | Event-driven desktop application development |
+| 11 | Git Version Control | Repository management, branching, collaboration |
+| 12 | Concurrency | Multithreading, synchronization, thread pools |
+| 13 | Capstone Integration | Modular architecture, testing, final project |
 
 ---
 
@@ -43,15 +44,16 @@ Each module progresses from foundational theory to practical implementation, cul
 1. [Java Foundations](01_foundations.md)
 2. [Control Flow](02_control_flow.md)
 3. [Arrays and Strings](03_arrays_strings.md)
-4. [OOP Basics](04_oop_basics.md)
-5. [Advanced OOP](05_advanced_oop.md)
-6. [Collections and Generics](06_collections_generics.md)
-7. [JDBC Persistence](07_jdbc_persistence.md)
-8. [Functional Java](08_functional_java.md)
-9. [Java Swing GUI](09_swing_gui.md)
-10. [Git Version Control](10_git_version_control.md)
-11. [Concurrency](11_concurrency.md)
-12. [Capstone Integration](12_capstone.md)
+4. [About Methods](04_methods.md)
+5. [OOP Basics](05_oop_basics.md)
+6. [Advanced OOP](06_advanced_oop.md)
+7. [Collections and Generics](07_collections_generics.md)
+8. [JDBC Persistence](08_jdbc_persistence.md)
+9. [Functional Java](09_functional_java.md)
+10. [Java Swing GUI](10_swing_gui.md)
+11. [Git Version Control](11_git_version_control.md)
+12. [Concurrency](12_concurrency.md)
+13. [Capstone Integration](13_capstone.md)
 
 ---
 
@@ -60,7 +62,7 @@ Each module progresses from foundational theory to practical implementation, cul
 1. **Sequential Study**: Modules are ordered by dependency. Complete them in sequence for the best learning experience.
 2. **Hands-On Practice**: Every module concludes with a "Code in Practice" section. Type and run every example; do not copy-paste.
 3. **Diagram Comprehension**: Study the Mermaid diagrams carefully. They represent the mental models that distinguish junior developers from senior engineers.
-4. **Capstone Preparation**: Modules 01 through 11 each contribute a skill that is directly required in the Module 12 capstone project.
+4. **Capstone Preparation**: Modules 01 through 12 each contribute a skill that is directly required in the Module 13 capstone project.
 
 ---
 
@@ -74,5 +76,5 @@ Each module progresses from foundational theory to practical implementation, cul
 ---
 
 **Author**: Java Engineering Curriculum  
-**Version**: 1.0  
+**Version**: 1.1  
 **Last Updated**: May 2026

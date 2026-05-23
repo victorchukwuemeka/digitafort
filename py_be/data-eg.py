@@ -82,3 +82,14 @@ my_new_dict = dict(name="alice",age=45)
 #print(f" Turple:{type(my_t2)} and  String:{type(my_t3)}")
 
 
+#Todo 
+#we want tconvert number to an integer 
+# and a proper error handling 
+try:
+    #var for the string 
+    num_str = "abc"
+    num = int(num_str)
+    print(num)
+
+except ValueError:
+    print(f"integer conversion failed")

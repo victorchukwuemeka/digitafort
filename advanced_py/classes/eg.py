@@ -56,8 +56,25 @@ your_bank = BankAccount("mercy", 200)
 your_schools = BankAccount("your sch", 999)
 family_account  = BankAccount("your Family", 500)
 
-print("*=*"*87)
-print("Our bank accounts ")
-print(BankAccount.interest_rate)
-print(BankAccount.account_count)
+#print("*=*"*87)
+#print("Our bank accounts ")
+#print(BankAccount.interest_rate)
+#print(BankAccount.account_count)
 
+
+
+class Cat:
+
+    def __init__(self, name,color):
+        self.name = name 
+        self.color = color
+        pass
+    
+    def name(self):
+        return self.name
+    
+    def color(self):
+        return self.color
+
+cat = Cat('new_cat',"grey")
+print(cat.color)

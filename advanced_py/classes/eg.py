@@ -78,3 +78,5 @@ class Cat:
 
 cat = Cat('new_cat',"grey")
 print(cat.color)
+
+

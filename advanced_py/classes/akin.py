@@ -1,3 +1,4 @@
+"""
 name = "victor"
 num = 89
 print(f"Name is {name}")
@@ -19,6 +20,15 @@ class Person:
 
 Person("sofy", 89)
 Person("amad", 90)
+
+"""
+
+
+from abc import ABC, abstractmethod
+
+
+class Human(ABC):
+    
 
 
 

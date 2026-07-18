@@ -355,7 +355,7 @@ def add(a,b):
 print(add.__name__)
 print(add.__doc__)
 """
-
+"""
 import time 
 from functools import wraps
 
@@ -370,3 +370,9 @@ def timer(func):
         return result
     return wrapper
 
+"""
+
+
+def add(a,b):
+    c = a + b 
+    return None 

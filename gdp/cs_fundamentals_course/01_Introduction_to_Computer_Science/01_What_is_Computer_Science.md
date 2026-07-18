@@ -4,15 +4,28 @@
 
 **What is Computer Science?**
 
-Computer science is the study of computers and computational systems. Unlike electrical and computer engineers, computer scientists deal mostly with software and software systems; this includes their theory, design, development, and application.
+Computer science is the study of computers and computational systems. Unlike electrical and computer engineers, 
+computer scientists deal mostly with software and software systems; 
+this includes their theory, design, development, and application.
 
-Principal areas of study within computer science include artificial intelligence, computer systems and networks, security, database systems, human-computer interaction, vision and graphics, numerical analysis, programming languages, software engineering, bioinformatics, and theory of computing.
+Principal areas of study within computer science include artificial intelligence, 
+computer systems and networks, security, database systems, human-computer interaction, 
+vision and graphics, numerical analysis, programming languages, software engineering, 
+bioinformatics, and theory of computing.
+
 
 **Misconceptions about Computer Science**
 
-A common misconception is that computer science is all about programming. While programming is an essential tool for a computer scientist, it is only a means to an end. Computer scientists use programming to create solutions to problems, but the core of the discipline is about problem-solving, logical thinking, and understanding the capabilities and limitations of computation.
+A common misconception is that computer science is all about programming. While programming is an essential tool for a computer scientist,
+ it is only a means to an end. Computer scientists use programming to create solutions to problems, 
+but the core of the discipline is about problem-solving, logical thinking, and understanding the capabilities and limitations of computation.
 
-To put it another way, a computer scientist is like an architect who designs a building. The architect needs to understand the principles of engineering and physics to create a sound design, but they don't necessarily need to lay the bricks themselves. Similarly, a computer scientist needs to understand the principles of computation to design a solution, but the implementation (programming) is just one part of the process.
+
+To put it another way, a computer scientist is like an architect who designs a building. 
+The architect needs to understand the principles of engineering and physics to create a sound design, 
+but they don't necessarily need to lay the bricks themselves. Similarly, a computer scientist needs to understand 
+the principles of computation to design a solution, but the implementation (programming) is just one part of the process.
+
 
 **Why Study Computer Science?**
 

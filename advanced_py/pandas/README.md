@@ -1,171 +1,268 @@
 # Pandas — Data Analysis in Python
 
-## 1. What is Pandas?
-Pandas is a library for working with tabular data (like spreadsheets or SQL tables). It gives you two structures: **Series** (a single column) and **DataFrame** (a table with rows and columns). Let's create our first DataFrame:
+Pandas is the go-to library for working with tabular data in Python. If you've used Excel or SQL, you already know the kind of problems Pandas solves — except Pandas handles millions of rows fast.
+
+```bash
+pip install pandas
+```
+
+The convention is always `import pandas as pd`. Don't fight it.
+
+---
+
+## 1. Creating a DataFrame
+
+A DataFrame is a table with rows and columns. The most common way to create one is from a dictionary:
 
 ```python
 import pandas as pd
 
-data = {
+df = pd.DataFrame({
     "Name": ["Alice", "Bob", "Charlie", "Diana"],
     "Age": [25, 30, 35, 28],
     "City": ["NYC", "LA", "Chicago", "NYC"],
     "Salary": [70000, 80000, 120000, 90000]
-}
-df = pd.DataFrame(data)
+})
 ```
+
+Each key becomes a column. All lists must be the same length or you'll get a `ValueError`.
+
+---
 
 ## 2. Exploring Your Data
-Before analyzing, understand what you're working with:
+
+The first thing you do with any new dataset:
 
 ```python
-print(df.head())       # first 5 rows
-print(df.info())       # column types and non-null counts
-print(df.describe())   # summary stats for numeric columns
-print(df.shape)        # (4, 4)
-print(df.columns)      # Index(['Name', 'Age', 'City', 'Salary'])
-print(df.dtypes)       # data type per column
+print(df.shape)              # (4, 4) — rows x columns
+print(df.head())             # first 5 rows
+print(df.info())             # column types, non-null counts ← run this first
+print(df.describe())         # stats for numeric columns (mean, std, min, max)
+print(df.isnull().sum())     # missing values per column
+print(df["City"].value_counts())  # how many times each city appears
 ```
 
-`info()` is always the first thing to call — it shows if any columns have missing data or wrong types.
+`info()` tells you everything: how much data you have, which columns have missing values, and whether the data types make sense. Run it before doing anything else.
+
+---
 
 ## 3. Selecting Data
-Pandas has two selection methods: `.loc[]` for labels and `.iloc[]` for positions:
+
+Pandas has two selection methods — and you need to know the difference:
 
 ```python
 # Columns
-print(df["Name"])              # single column as Series
-print(df[["Name", "Age"]])     # multiple columns as DataFrame
+df["Name"]              # single column → Series
+df[["Name", "Age"]]     # multiple columns → DataFrame
 
-# Rows by position
-print(df.iloc[0])              # first row
-print(df.iloc[0:3])            # first 3 rows
+# .loc[] — by label (inclusive on both ends!)
+df.loc[0, "Name"]                  # "Alice"
+df.loc[0:2, ["Name", "Age"]]      # rows 0, 1, 2 (inclusive!)
 
-# Rows by index label
-print(df.loc[0])               # row where index = 0
-print(df.loc[0:2, ["Name", "Age"]])  # rows 0-2, Name and Age only
-
-# Single value
-print(df.at[0, "Name"])        # Alice — fast single-value access
+# .iloc[] — by position (exclusive at the end, like normal Python)
+df.iloc[0]                 # first row
+df.iloc[0:2, 0:2]         # first 2 rows, first 2 columns
 ```
 
-## 4. Filtering
-Filter rows using conditions. Each condition must be in parentheses:
+**Remember:** `loc` = labels (inclusive), `iloc` = positions (exclusive). Mixing them up is the #1 source of bugs.
+
+---
+
+## 4. Filtering Rows
+
+Filter rows by giving Pandas a boolean condition:
 
 ```python
 # Single condition
-print(df[df["Age"] > 30])
-#      Name  Age      City  Salary
-# 2  Charlie   35  Chicago  120000
+df[df["Age"] > 30]
 
-# Multiple conditions with & (and), | (or)
-print(df[(df["Age"] > 25) & (df["City"] == "NYC")])
+# Multiple conditions — wrap each in parentheses, use & or |
+df[(df["Age"] > 25) & (df["City"] == "NYC")]
+df[(df["City"] == "NYC") | (df["City"] == "LA")]
 
-# Filter by list
-print(df[df["Name"].isin(["Alice", "Diana"])])
+# .isin() — check against a list
+df[df["City"].isin(["NYC", "Chicago"])]
 
-# SQL-like query — cleaner for complex conditions
-print(df.query("Age > 25 and City == 'NYC'"))
+# .query() — cleaner for complex conditions
+df.query("Age > 25 and City == 'NYC'")
 ```
 
-The `query` method is often easier to read when you have multiple conditions.
+The parentheses around conditions are mandatory — Python's operator precedence will break your code without them.
 
-## 5. Handling Missing Data
-Real data has missing values — Pandas represents them as `NaN`:
+---
+
+## 5. Missing Data
+
+Real data has gaps. Pandas uses `NaN` for missing values.
 
 ```python
-# First, detect missing values
-print(df.isnull().sum())
+# How much is missing per column
+df.isnull().sum()
 
-# Add a row with missing data to demonstrate
-df2 = df.copy()
-df2.loc[4] = ["Eve", None, "LA", None]  # Age and Salary are missing
+# Drop rows with any missing value
+df.dropna()
 
-# Drop missing values
-print(df2.dropna())           # drops rows with any NaN
-print(df2.dropna(subset=["Age"]))  # drops only if Age is NaN
+# Drop only in specific columns
+df.dropna(subset=["Age"])
 
-# Fill missing values
-print(df2.fillna(0))                    # replace NaN with 0
-print(df2.fillna({"Age": df2["Age"].mean(), "Salary": 0}))
+# Fill with a value
+df.fillna(0)
+
+# Fill different columns differently
+df.fillna({"Age": df["Age"].mean(), "Salary": 0})
+
+# Forward fill (use previous row's value — common for time series)
+df["Salary"].ffill()
 ```
+
+**Don't blindly `dropna()`** — if 30% of rows have any NaN somewhere, you lose 30% of your data. Always check how much you're losing first.
+
+---
 
 ## 6. Adding and Modifying Columns
+
 ```python
-# Add derived column
+# Add a new column
 df["Tax"] = df["Salary"] * 0.1
 
-# Create column with logic
-df["Age_Group"] = df["Age"].apply(lambda x: "Young" if x < 30 else "Senior")
+# Conditional column
+import numpy as np
+df["Senior"] = np.where(df["Age"] > 30, "Yes", "No")
 
-# Rename
-df.rename(columns={"Name": "Full_Name"}, inplace=True)
+# Row-by-row logic with .apply() (slower, use for complex logic)
+df["Bracket"] = df["Salary"].apply(lambda x: "High" if x > 100000 else "Low")
 
-# Drop
-df.drop("Tax", axis=1, inplace=True)
+# Rename columns
+df = df.rename(columns={"Name": "Full_Name"})
+
+# Drop columns
+df = df.drop("Tax", axis=1)
 ```
 
-## 7. Grouping and Aggregation
-`groupby` splits data into groups, applies a function, and combines results (split-apply-combine):
+Prefer vectorized operations (`df["col"] * 2`) over `.apply()` — they're 10-100x faster. Use `np.where()` for simple if/else.
+
+---
+
+## 7. Sorting
+
+```python
+df.sort_values("Age")                            # ascending
+df.sort_values("Salary", ascending=False)         # descending
+df.sort_values(["City", "Salary"], ascending=[True, False])  # multi-column
+
+df.nlargest(3, "Salary")    # top 3 earners — cleaner than sort + head
+df.nsmallest(2, "Age")      # 2 youngest
+```
+
+Note: `sort_values` returns a new DataFrame. Assign it back: `df = df.sort_values(...)`.
+
+---
+
+## 8. Grouping and Aggregation
+
+The most powerful Pandas pattern. Split data into groups, compute something per group, get results:
 
 ```python
 # Average salary by city
-print(df.groupby("City")["Salary"].mean())
+df.groupby("City")["Salary"].mean()
 
-# Multiple aggregations
-print(df.groupby("City").agg({
-    "Age": ["mean", "max", "min"],
-    "Salary": ["sum", "mean"]
-}))
+# Multiple stats at once
+df.groupby("City").agg(
+    avg_age=("Age", "mean"),
+    total_salary=("Salary", "sum"),
+    headcount=("Name", "count")
+)
 
-# Named aggregations (cleaner output)
-print(df.groupby("City").agg(
-    avg_salary=("Salary", "mean"),
-    count=("Name", "count")
-))
+# Group by multiple columns
+df.groupby(["City", "Department"])["Salary"].mean()
 ```
 
-This is the most powerful Pandas pattern — it's the equivalent of SQL's `GROUP BY`.
+After a multi-column groupby, use `.reset_index()` to get a regular DataFrame back.
 
-## 8. Sorting
-```python
-print(df.sort_values("Age"))                     # ascending
-print(df.sort_values("Age", ascending=False))    # descending
-print(df.sort_values(["City", "Age"]))           # multi-column
-```
+---
 
 ## 9. Merging DataFrames
-Combine DataFrames like SQL joins:
+
+Combine tables like SQL joins:
 
 ```python
-df1 = pd.DataFrame({"ID": [1, 2, 3], "Name": ["Alice", "Bob", "Charlie"]})
-df2 = pd.DataFrame({"ID": [1, 2, 4], "Score": [85, 92, 78]})
+employees = pd.DataFrame({"ID": [1, 2, 3], "Name": ["Alice", "Bob", "Charlie"], "Dept_ID": [101, 102, 101]})
+departments = pd.DataFrame({"Dept_ID": [101, 102, 104], "Dept_Name": ["Eng", "Mkt", "Sales"]})
 
-# Inner join — only matching IDs
-print(pd.merge(df1, df2, on="ID"))
-#    ID     Name  Score
-# 0   1    Alice     85
-# 1   2      Bob     92
-
-# Left join — all from df1
-print(pd.merge(df1, df2, on="ID", how="left"))
-
-# Stack rows
-print(pd.concat([df1, df2], axis=0))
+pd.merge(employees, departments, on="Dept_ID")                    # inner join (default)
+pd.merge(employees, departments, on="Dept_ID", how="left")        # keep all from left
+pd.merge(employees, departments, on="Dept_ID", how="outer")       # keep everything
 ```
 
-## 10. Working with Dates
+**Inner** = only matches. **Left** = all from left + matches. **Outer** = everything, NaN where no match.
+
+---
+
+## 10. Dates
+
 ```python
-df["Date"] = pd.to_datetime(["2024-01-01", "2024-02-15", "2024-03-20", "2024-04-10"])
+# Convert strings to datetime
+df["Date"] = pd.to_datetime(df["Date"])
+
+# Extract parts
 df["Year"] = df["Date"].dt.year
 df["Month"] = df["Date"].dt.month
+
+# Set as index and slice by date range
 df.set_index("Date", inplace=True)
+df["2024-02"]          # all rows from February 2024
 ```
 
-## 11. Loading Real Data
+Always convert date strings to datetime objects — string sorting ("2024-02-01" vs "2024-01-15") doesn't work chronologically.
+
+---
+
+## 11. String Operations
+
+Use the `.str` accessor to work with text columns:
+
 ```python
-df = pd.read_csv("example.csv")
-print(df.head())
+df["Name"].str.lower()
+df["Name"].str.strip()
+df["Name"].str.contains("li")         # True/False
+df["Name"].str.split(" ").str[0]      # first name
+df["Name"].str.len()
 ```
 
-Most real-world work starts with `read_csv`. The typical workflow is: **load → explore → clean → transform → analyze → visualize**.
+---
+
+## 12. Saving and Loading Data
+
+```python
+# Read
+df = pd.read_csv("data.csv")
+df = pd.read_csv("data.csv", usecols=["Name", "Age"])   # only specific columns
+df = pd.read_excel("data.xlsx")                          # needs openpyxl
+
+# Write
+df.to_csv("output.csv", index=False)     # index=False skips row numbers
+df.to_excel("output.xlsx", index=False)
+```
+
+CSV is universal and human-readable. For large datasets, Parquet (`pd.read_parquet` / `to_parquet`) is much faster and smaller.
+
+---
+
+## Common Gotchas
+
+1. **Parentheses in filtering:** `df[(df["Age"] > 30) & (df["City"] == "NYC")]` — missing parentheses = error
+2. **`loc` is inclusive:** `df.loc[0:2]` includes row 2. `iloc[0:2]` does not.
+3. **Numbers stored as strings:** If `df["age"].dtype` is `object`, fix with `pd.to_numeric(df["age"], errors="coerce")`
+4. **Forgetting `.copy()`:** `subset = df[df["Age"] > 30]` then `subset["X"] = 1` may not work. Use `.copy()` explicitly.
+5. **`sort_values` doesn't modify in place:** You must assign: `df = df.sort_values("Age")`
+
+---
+
+## What's Next?
+
+- **Visualization**: `matplotlib`, `seaborn`
+- **Machine learning**: `scikit-learn`
+- **Big data**: `Polars`, `Dask`
+
+*Run `python pandas_examples.py` for runnable examples of everything above.*
+*Try `python exercises.py` to practice.*

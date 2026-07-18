@@ -531,3 +531,24 @@ for user in all_users:
     print(f"  ID: {user[0]}, Name: {user[1]}, Email: {user[2]}")
 
 
+
+
+
+"""
+todo 
+this function helps in greeting 
+"""
+
+
+def greeting():
+    return "good morning"
+
+greeting()
+
+
+co = "cook"
+
+task = ['cook', 'sleep', "eat"]
+
+for t in task:
+    print(t)

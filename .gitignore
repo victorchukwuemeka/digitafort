@@ -2,3 +2,6 @@ django-blog/
 shorty-api/
 scraping_env/
 webscraping/scraping_env/
+*.xlsx
+.venv/
+__pycache__/

@@ -1,28 +1,26 @@
+"""
+timer 
+"""
+
+# we are to import  
+
+import time 
+from functools import wraps 
 
 
-def countdown(n):
-    while  n > 0:
-        yield n
-        n -= 1 
-    print("Done")
+def timer(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        result = func(*args, **kwargs)
+        stop  = time.perf_counter()
+        return result 
+    return wrapper 
 
 
-
-gen = countdown(5)
-
-for num in gen:
-    print(num)
+@timer
+def process_data(n):
+    return sum(range(n))
 
 
-def multiple():
-    yield "made a change "
-    yield "commited my change "
-    yield "push changes "
-
-for m in multiple():
-    print(m)
-
-
-
-
-
+print(process_data(100000))

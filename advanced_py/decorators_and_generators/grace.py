@@ -1,4 +1,5 @@
 
+""""
 def get_num_list(num):
     num_list = []
     for n in range(num):
@@ -8,8 +9,9 @@ def get_num_list(num):
 num = 10000000000
 #num_index  = get_num_list(num)
 #print(num_index)
+"""
 
-
+"""
 def get_num_gen(num):
     for n in range(num):
         yield n * 1 
@@ -28,9 +30,46 @@ def countdown(n):
         yield n 
         n -=  1
 
-
 gen2 = countdown(3)
 print(next(gen2))
 print(next(gen2))
 print(next(gen2))
+"""
+"""
+num = 200
+name = "victor"
+ 
+gen  = (x + x for  x in range(200))
+"""
 
+
+
+
+import itertools 
+
+def count_up(start=0):
+    n = start 
+    while True :
+        yield n 
+        n += 1
+
+good = list(itertools.islice(count_up(),8))
+print(good)
+
+
+
+def acc():
+    total = 0  
+    while True:
+       value = yield total  
+       if value is None:
+           break 
+       total +=  value  
+
+
+print(acc())      
+gen = acc()
+next(gen)
+print(gen.send(10))
+print(gen.send(20))
+print(gen.send(6))

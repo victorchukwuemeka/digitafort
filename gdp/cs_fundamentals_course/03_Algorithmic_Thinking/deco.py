@@ -5,9 +5,6 @@
 
 
 
-
-
-
 def get_in():
     ##getting what the  list of the materials needed 
     ing = ["tufu","p","o", "ge","s"]

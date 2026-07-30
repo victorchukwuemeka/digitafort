@@ -44,7 +44,7 @@ gen  = (x + x for  x in range(200))
 
 
 
-
+"""
 import itertools 
 
 def count_up(start=0):
@@ -73,3 +73,32 @@ next(gen)
 print(gen.send(10))
 print(gen.send(20))
 print(gen.send(6))
+"""
+
+
+
+
+
+
+
+from functools import wraps
+
+def shout(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print("anything ")
+        result = func(*args, **kwargs)
+        print("something")
+        return result 
+    return wrapper 
+
+@shout
+def greet(name):
+    print(f"Good morning {name}")
+
+greet("Bob")
+
+
+ 
+
+

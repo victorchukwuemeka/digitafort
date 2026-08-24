@@ -6,7 +6,7 @@ def binary(arr, target):
     high = len(arr) -1 
 
     while low <= high:
-        mid  = low + high // 2
+        mid  = (low + high) // 2
 
         if arr[mid] == target:
             return mid
@@ -22,7 +22,7 @@ def recursive(arr, target, low , high):
     if low > high:
         return -1 
     
-    mid = low + high // 2 
+    mid = (low + high) // 2 
 
     if arr[mid] == target:
         return mid 

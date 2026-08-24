@@ -213,6 +213,205 @@ def binary_search_recursive(arr, target, low, high):
 # result = binary_search_recursive(my_list, target, 0, len(my_list) - 1)
 ```
 
+## Line-by-Line Breakdown of the Iterative Version
+
+Let's dissect every line and understand *why* it exists:
+
+```python
+def binary_search(arr, target):
+    low = 0                    # ① leftmost index still under consideration
+    high = len(arr) - 1        # ② rightmost index still under consideration
+
+    while low <= high:         # ③ loop while the search space is non-empty
+        mid = (low + high) // 2  # ④ middle index (floor division rounds down)
+
+        if arr[mid] == target: # ⑤ luck! direct hit
+            return mid
+        elif arr[mid] < target:# ⑥ everything at/before mid is too small
+            low = mid + 1      # ⑦ discard left half INCLUDING mid
+        else:                  # ⑧ arr[mid] > target: everything at/after mid is too big
+            high = mid - 1     # ⑨ discard right half INCLUDING mid
+
+    return -1                  # ⑩ space exhausted → target isn't there
+```
+
+**Detailed explanations:**
+
+- **①② Why `len(arr) - 1` and not `len(arr)`?** We treat `low` and `high` as **inclusive** bounds: both endpoints are still valid candidates. Since valid indices run from `0` to `len(arr) - 1`, starting `high` at `len(arr)` would immediately index out of range when the array has one element.
+- **③ Why `<=` and not `<`?** The condition `low <= high` means "there is still at least one element between the pointers". When `low == high` exactly one candidate remains — we must be allowed to check it. With `<`, that last element is silently skipped.
+- **④ Why `// 2`?** Regular division gives a float like `3.5`; indices must be integers. Floor division `(low + high) // 2` rounds down, which always lands inside `[low, high]`.
+- **⑥⑦ Why `mid + 1` and not `mid`?** We already *know* `arr[mid] != target` (we're in the `elif`). Keeping `mid` in the range would re-examine a proven-dead element forever — that's the recipe for an infinite loop. Eliminating it shrinks the space by at least one every iteration, guaranteeing termination.
+- **⑩ Why can we safely give up?** Every element excluded so far was excluded by proof: if `arr[mid] < target`, then *all* elements left of `mid` are also `< target` (sorted!). So when the pointers cross, no unexamined element remains.
+
+## More Snippets: Useful Variants (With Explanations)
+
+### Variant 1 — First Occurrence (handles duplicates)
+
+Plain binary search returns *any* matching index. To get the **leftmost** match, don't stop when you find one — record it, then keep hunting to the left:
+
+```python
+def find_first(arr, target):
+    low, high = 0, len(arr) - 1
+    result = -1                        # default: not found
+
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == target:
+            result = mid               # remember this hit…
+            high = mid - 1             # …but an earlier one may exist → go left
+        elif arr[mid] < target:
+            low = mid + 1              # target is somewhere to the right
+        else:
+            high = mid - 1             # target is somewhere to the left
+
+    return result
+
+nums = [3, 7, 7, 7, 9, 11]
+print(find_first(nums, 7))   # Output: 1  (not 2!)
+```
+
+**Why it works:** the moment we see the target we have a *valid answer*, but possibly not the best one. Setting `high = mid - 1` keeps searching strictly-left territory. Any later match found there overwrites `result` with a smaller index. When the loop ends, `result` holds the smallest index seen — which, because we always moved left after a hit, is guaranteed to be the very first occurrence. Cost: still $O(\log n)$, just without early exit.
+
+### Variant 2 — Last Occurrence & Counting Duplicates
+
+Flip one line and you get the **rightmost** match:
+
+```python
+def find_last(arr, target):
+    low, high = 0, len(arr) - 1
+    result = -1
+
+    while low <= high:
+        mid = (low + high) // 2
+        if arr[mid] == target:
+            result = mid
+            low = mid + 1              # mirror image: keep searching RIGHT
+        elif arr[mid] < target:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return result
+
+
+def count_occurrences(arr, target):
+    first = find_first(arr, target)
+    if first == -1:
+        return 0
+    return find_last(arr, target) - first + 1
+
+nums = [3, 7, 7, 7, 9, 11]
+print(find_last(nums, 7))          # Output: 3
+print(count_occurrences(nums, 7))  # Output: 3
+print(count_occurrences(nums, 5))  # Output: 0
+```
+
+**Why counting works:** in a sorted array every copy of the target sits in one contiguous block. If the block spans indices `[first, last]`, its size is simply `last - first + 1`. Two $O(\log n)$ searches beat scanning the block linearly ($O(n)$) when duplicates are millions long.
+
+### Variant 3 — Insertion Point ("where would it go?")
+
+A tiny twist turns the search into `bisect_left`: even if the target is absent, report where it *should* be inserted to keep the list sorted:
+
+```python
+def insertion_point(arr, target):
+    low, high = 0, len(arr)          # note: high starts at len(arr),
+                                     # because inserting AT THE END is legal
+    while low < high:                # different flavor: half-open range [low, high)
+        mid = (low + high) // 2
+        if arr[mid] < target:
+            low = mid + 1            # insertion point is right of mid
+        else:
+            high = mid               # arr[mid] >= target → mid itself may be the spot
+
+    return low                       # low == high == final position
+
+data = [10, 20, 30, 50]
+print(insertion_point(data, 35))  # Output: 3  → insert between 30 and 50
+print(insertion_point(data, 5))   # Output: 0  → new front element
+print(insertion_point(data, 99))  # Output: 4  → append at end
+```
+
+**What changed and why:**
+
+- We now search for a **boundary**, not a value, so there is no early `return`. The loop narrows until `low == high`, and either pointer is the answer.
+- `high = len(arr)` (not `len(arr) - 1`) because "after the last element" is a legitimate insertion slot.
+- The comparison collapses into two cases: elements smaller than the target can't affect the answer (`mid + 1`), everything else might be it (`high = mid` — safe here because the loop condition uses `<`, so no infinite loop).
+- This exact pattern powers `list.sort()` + insert pipelines and is what Python's `bisect.bisect_left` does.
+
+### Variant 4 — Binary Search Without an Array (on "the answer" itself!)
+
+The deepest insight about binary search: **it never needed the array.** It needs anything where a yes/no question splits the world cleanly in two. Example: find $\lfloor\sqrt{n}\rfloor$ using only comparisons:
+
+```python
+def integer_sqrt(n):
+    """Largest whole number x such that x*x <= n."""
+    if n < 2:
+        return n                 # sqrt(0)=0, sqrt(1)=1
+
+    low, high = 1, n // 2        # sqrt(n) always fits in [1, n//2] for n >= 2
+    answer = 1
+
+    while low <= high:
+        mid = (low + high) // 2
+        squared = mid * mid      # our "probe", playing the role of arr[mid]
+
+        if squared == n:
+            return mid           # perfect square — exact hit
+        elif squared < n:
+            answer = mid         # mid qualifies… but a bigger one might too
+            low = mid + 1        # …so look right
+        else:
+            high = mid - 1       # overshoot — look left
+
+    return answer                # largest value whose square stayed <= n
+
+print(integer_sqrt(16))   # Output: 4
+print(integer_sqrt(17))   # Output: 4  (floor of 4.123…)
+print(integer_sqrt(99))   # Output: 9
+```
+
+**Why it works:** imagine the infinite sequence `1·1, 2·2, 3·3, 4·4, …`. It's *monotonically increasing* — exactly the property a sorted array has. "Is `x² ≤ n`?" answers `True` for a prefix of that sequence and `False` afterward, so binary search can locate the boundary. For `n = 10¹⁸` this needs ~60 iterations instead of ~10¹⁸ probes. This "search on the answer space" trick solves a huge family of interview problems (capacity to ship packages, minimum eating speed, split-array-largest-sum…).
+
+### Variant 5 — It Works on Any Comparable Type (e.g., Strings)
+
+Nothing requires numbers. Anything supporting `<` works, including strings (compared alphabetically):
+
+```python
+words = ["banana", "cherry", "date", "apple"]   # ← NOT sorted yet!
+words.sort()                                    # prerequisite: ["apple","banana","cherry","date"]
+
+idx = binary_search(words, "cherry")   # reuse the original function!
+print(idx)                             # Output: 2
+print(binary_search(words, "fig"))     # Output: -1 (absent)
+```
+
+Python compares strings character-by-character (lexicographic order), so `"apple" < "banana"` is `True` — and that's all binary search asks for. Same trick works for tuples, dates, or your own objects once you define `__lt__`.
+
+### Variant 6 — Don't Roll Your Own: Python's `bisect` Module
+
+In production Python, use the battle-tested standard library version:
+
+```python
+import bisect
+
+nums = [3, 7, 7, 7, 9, 11]
+
+i = bisect.bisect_left(nums, 7)        # leftmost insertion point → 1
+j = bisect.bisect_right(nums, 7)       # rightmost insertion point → 4
+
+found = i < len(nums) and nums[i] == 7 # standard idiom for "is it present?"
+print(i, j, found)                     # Output: 1 4 True
+
+bisect.insort(nums, 8)                 # insert 8 keeping the list sorted
+print(nums)                            # [3, 7, 7, 7, 8, 9, 11]
+```
+
+**Notes:**
+
+- `bisect_left` returns where the target *starts* (first occurrence); `bisect_right` where it *ends+1*. Their difference is the count: `count = bisect_right(...) - bisect_left(...)` — same math as Variant 2!
+- Both run in $O(\log n)$; they assume the list is already sorted (they never sort for you).
+- `insort` inserts in place in $O(n)$ time overall (the shift dominates) but keeps code short and correct.
+
 ## Common Pitfalls (Read Before Coding!)
 
 ### 1. Forgetting the list must be sorted

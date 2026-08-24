@@ -24,7 +24,7 @@ Then we repeat until the space is empty:
 
 > **Key invariant:** Because the list is sorted, comparing against the middle element lets us *guarantee* which half the target must be in (or that it isn't there at all). That's what makes throwing away half the list safe.
 
-## Real-World Intuition: The Guessing Game 🎯
+## Real-World Intuition: The Guessing Game 
 
 Imagine I pick a number between 1 and 100 and you have to guess it. After each guess, I tell you "higher" or "lower".
 
@@ -39,7 +39,7 @@ Imagine I pick a number between 1 and 100 and you have to guess it. After each g
 | 62 | "Higher" | Number is in 63–74 | 12 numbers |
 | 68 | "Higher" | Number is in 69–74 | 6 numbers |
 | 71 | "Lower" | Number is in 69–70 | 2 numbers |
-| 69 | ✅ Correct! | Found it | 0 |
+| 69 | Correct! | Found it | 0 |
 
 Only **6 guesses** instead of up to 100. Each answer cuts the range in half — that's exactly how Binary Search works on a sorted array. The array values play the role of the number line; the sorted order plays the role of the "higher/lower" hints.
 
